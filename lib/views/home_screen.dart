@@ -25,18 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  Future<void> _scrollToSection(int index) async {
-    final key = _sectionKeys[index];
-    final context = key.currentContext;
-    if (context != null) {
-      await Scrollable.ensureVisible(
-        context,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.easeInOut,
-      );
-    }
-  }
-
   @override
   void dispose() {
     _scrollController.dispose();
@@ -51,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
       data: _isDarkMode ? ThemeData.dark() : ThemeData.light(),
       child: Scaffold(
         appBar: isMobile ? _buildMobileAppBar() : null,
-        drawer: isMobile ? _buildMobileDrawer() : null,
+        drawer: isMobile ? _buildMobileDrawer(isMobile) : null,
         body: CustomScrollView(
           controller: _scrollController,
           slivers: [
@@ -62,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Header(
                     sectionKeys: _sectionKeys,
                     toggleTheme: _toggleTheme,
+                    scrollController: _scrollController,
                   ),
                 ),
               ),
@@ -94,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildMobileDrawer() {
+  Widget _buildMobileDrawer(isMobile) {
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -115,42 +104,27 @@ class _HomeScreenState extends State<HomeScreen> {
           ListTile(
             title: const Text('About'),
             leading: const Icon(Icons.person),
-            onTap: () {
-              _scrollToSection(0);
-              Navigator.pop(context);
-            },
+            onTap: () => _scrollToSection(0, isMobile),
           ),
           ListTile(
             title: const Text('Skills'),
             leading: const Icon(Icons.code),
-            onTap: () {
-              _scrollToSection(1);
-              Navigator.pop(context);
-            },
+            onTap: () => _scrollToSection(1, isMobile),
           ),
           ListTile(
             title: const Text('Experience'),
             leading: const Icon(Icons.work),
-            onTap: () {
-              _scrollToSection(2);
-              Navigator.pop(context);
-            },
+            onTap: () => _scrollToSection(2, isMobile),
           ),
           ListTile(
             title: const Text('Projects'),
             leading: const Icon(Icons.apps),
-            onTap: () {
-              _scrollToSection(3);
-              Navigator.pop(context);
-            },
+            onTap: () => _scrollToSection(3, isMobile),
           ),
           ListTile(
             title: const Text('Contact'),
             leading: const Icon(Icons.email),
-            onTap: () {
-              _scrollToSection(4);
-              Navigator.pop(context);
-            },
+            onTap: () => _scrollToSection(4, isMobile),
           ),
           const Divider(),
           ListTile(
@@ -165,6 +139,23 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  Future<void> _scrollToSection(int index, isMobile) async {
+    final key = _sectionKeys[index];
+    final context = key.currentContext;
+    if (context != null) {
+      await Scrollable.ensureVisible(
+        context,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+        alignment: 0.8, // Align to 30% from top of viewport
+      );
+      if (isMobile) {
+        // ignore: use_build_context_synchronously
+        Navigator.pop(context); // Close drawer after navigation
+      }
+    }
+  }
 }
 
 class _StickyHeaderDelegate extends SliverPersistentHeaderDelegate {
@@ -173,8 +164,7 @@ class _StickyHeaderDelegate extends SliverPersistentHeaderDelegate {
   _StickyHeaderDelegate({required this.child});
 
   @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return child;
   }
 
