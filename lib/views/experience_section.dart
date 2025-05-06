@@ -57,7 +57,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: experiences.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 30),
+            separatorBuilder: (context, index) => const SizedBox(height: 10),
             itemBuilder: (context, index) {
               return _buildExperienceItem(experiences[index], index);
             },
@@ -77,15 +77,8 @@ class _ExperienceSectionState extends State<ExperienceSection> {
         curve: Curves.easeInOut,
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.grey.withValues(alpha:0.05),
+            color: Colors.grey.withValues(alpha:0.15),
             borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha:0.1),
-                blurRadius: 10,
-                offset: const Offset(0, 5),
-              ),
-            ],
           ),
           child: Padding(
             padding: const EdgeInsets.all(20),

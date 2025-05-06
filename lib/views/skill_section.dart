@@ -41,8 +41,6 @@ class _SkillsSectionState extends State<SkillsSection> {
           const SizedBox(height: 40),
           LayoutBuilder(
             builder: (context, constraints) {
-              // Calculate the best childAspectRatio based on available height
-              dynamic aspectRatio = constraints.maxWidth < 400 ? 1.5 : 3;
               
               return GridView.builder(
                 shrinkWrap: true,
@@ -51,7 +49,7 @@ class _SkillsSectionState extends State<SkillsSection> {
                   crossAxisCount: isMobile ? 1 : isTablet ? 2 : 3,
                   crossAxisSpacing: 20,
                   mainAxisSpacing: 20,
-                  childAspectRatio: aspectRatio,
+                  childAspectRatio: 3.0,
                 ),
                 itemCount: skills.length,
                 itemBuilder: (context, index) {
@@ -76,15 +74,8 @@ class _SkillsSectionState extends State<SkillsSection> {
             minHeight: 100, // Minimum height to prevent overflow
           ),
           decoration: BoxDecoration(
-            color: Colors.grey.withValues(alpha:0.1),
+            color: Colors.grey.withValues(alpha:0.15),
             borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha:0.1),
-                blurRadius: 10,
-                offset: const Offset(0, 5),
-              ),
-            ],
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween, // Better space distribution

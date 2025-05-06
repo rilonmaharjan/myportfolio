@@ -72,7 +72,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                   : constraints.maxWidth > 800
                       ? 2
                       : 1;
-              double childAspectRatio = constraints.maxWidth > 800 ? 0.95 : 1.15;
+              double childAspectRatio = constraints.maxWidth > 800 ? 0.95 : constraints.maxWidth > 400 ?  1.15 : 0.85;
 
               return GridView.builder(
                 shrinkWrap: true,

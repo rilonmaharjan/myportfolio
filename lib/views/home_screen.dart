@@ -90,12 +90,13 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           DrawerHeader(
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
+              color:_isDarkMode
+              ? const Color.fromARGB(255, 39, 39, 39)
+              : const Color.fromARGB(255, 230, 230, 230),
             ),
             child: Text(
               'My Portfolio',
               style: TextStyle(
-                color: Theme.of(context).colorScheme.onPrimary,
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),

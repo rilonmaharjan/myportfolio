@@ -23,8 +23,9 @@ class _ContactSectionState extends State<ContactSection> {
 
   @override
   Widget build(BuildContext context) {
-    final isMobile = MediaQuery.of(context).size.width < 600;
-    final isTablet = MediaQuery.of(context).size.width < 1000;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isMobile = screenWidth < 600;
+    final isTablet = screenWidth < 1000;
 
     return Container(
       padding: EdgeInsets.symmetric(
@@ -42,148 +43,152 @@ class _ContactSectionState extends State<ContactSection> {
             ),
           ),
           const SizedBox(height: 40),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (!isMobile)
-                Flexible(
-                  flex: 1,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildContactInfo(
-                        Icons.email,
-                        'Email',
-                        'your.email@example.com',
-                      ),
-                      const SizedBox(height: 30),
-                      _buildContactInfo(
-                        Icons.phone,
-                        'Phone',
-                        '+1234567890',
-                      ),
-                      const SizedBox(height: 30),
-                      _buildContactInfo(
-                        Icons.location_on,
-                        'Location',
-                        'Your City, Country',
-                      ),
-                    ],
-                  ),
-                ),
-              SizedBox(width: isMobile ? 0 :  40),
-              Flexible(
-                flex: 2,
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      Row(
+          isTablet
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildContactInfo(
+                        Icons.email, 'Email', 'your.email@example.com'),
+                    const SizedBox(height: 30),
+                    _buildContactInfo(Icons.phone, 'Phone', '+1234567890'),
+                    const SizedBox(height: 30),
+                    _buildContactInfo(
+                        Icons.location_on, 'Location', 'Your City, Country'),
+                    const SizedBox(height: 40),
+                    _buildForm(isMobile),
+                  ],
+                )
+              : Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Flexible(
+                      flex: 1,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(
-                            child: TextFormField(
-                              controller: _nameController,
-                              decoration: const InputDecoration(
-                                labelText: 'Your Name',
-                                border: OutlineInputBorder(),
-                              ),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter your name';
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                          if (!isMobile) const SizedBox(width: 20),
-                          if (!isMobile)
-                            Expanded(
-                              child: TextFormField(
-                                controller: _emailController,
-                                decoration: const InputDecoration(
-                                  labelText: 'Your Email',
-                                  border: OutlineInputBorder(),
-                                ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter your email';
-                                  }
-                                  if (!value.contains('@')) {
-                                    return 'Please enter a valid email';
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ),
+                          _buildContactInfo(
+                              Icons.email, 'Email', 'your.email@example.com'),
+                          const SizedBox(height: 30),
+                          _buildContactInfo(
+                              Icons.phone, 'Phone', '+1234567890'),
+                          const SizedBox(height: 30),
+                          _buildContactInfo(Icons.location_on, 'Location',
+                              'Your City, Country'),
                         ],
                       ),
-                      if (isMobile) const SizedBox(height: 20),
-                      if (isMobile)
-                        TextFormField(
-                          controller: _emailController,
-                          decoration: const InputDecoration(
-                            labelText: 'Your Email',
-                            border: OutlineInputBorder(),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter your email';
-                            }
-                            if (!value.contains('@')) {
-                              return 'Please enter a valid email';
-                            }
-                            return null;
-                          },
-                        ),
-                      const SizedBox(height: 20),
-                      TextFormField(
-                        controller: _messageController,
-                        decoration: const InputDecoration(
-                          labelText: 'Your Message',
-                          border: OutlineInputBorder(),
-                          alignLabelWithHint: true,
-                        ),
-                        maxLines: 5,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter your message';
-                          }
-                          return null;
-                        },
-                      ),
-                      const SizedBox(height: 30),
-                      ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            // Process form data
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text('Message sent successfully!')),
-                            );
-                            _nameController.clear();
-                            _emailController.clear();
-                            _messageController.clear();
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 40,
-                            vertical: 15,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                        ),
-                        child: const Text(
-                          'Send Message',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ),
-                    ],
+                    ),
+                    const SizedBox(width: 40),
+                    Flexible(
+                      flex: 2,
+                      child: _buildForm(isMobile),
+                    ),
+                  ],
+                ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildForm(bool isMobile) {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: TextFormField(
+                  controller: _nameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Your Name',
+                    border: OutlineInputBorder(),
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your name';
+                    }
+                    return null;
+                  },
                 ),
               ),
+              if (!isMobile) const SizedBox(width: 20),
+              if (!isMobile)
+                Expanded(
+                  child: TextFormField(
+                    controller: _emailController,
+                    decoration: const InputDecoration(
+                      labelText: 'Your Email',
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your email';
+                      }
+                      if (!value.contains('@')) {
+                        return 'Please enter a valid email';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
             ],
+          ),
+          if (isMobile) const SizedBox(height: 20),
+          if (isMobile)
+            TextFormField(
+              controller: _emailController,
+              decoration: const InputDecoration(
+                labelText: 'Your Email',
+                border: OutlineInputBorder(),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your email';
+                }
+                if (!value.contains('@')) {
+                  return 'Please enter a valid email';
+                }
+                return null;
+              },
+            ),
+          const SizedBox(height: 20),
+          TextFormField(
+            controller: _messageController,
+            decoration: const InputDecoration(
+              labelText: 'Your Message',
+              border: OutlineInputBorder(),
+              alignLabelWithHint: true,
+            ),
+            maxLines: 5,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your message';
+              }
+              return null;
+            },
+          ),
+          const SizedBox(height: 30),
+          ElevatedButton(
+            onPressed: () {
+              if (_formKey.currentState!.validate()) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Message sent successfully!')),
+                );
+                _nameController.clear();
+                _emailController.clear();
+                _messageController.clear();
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5)),
+            ),
+            child: const Text(
+              'Send Message',
+              style: TextStyle(fontSize: 16),
+            ),
           ),
         ],
       ),

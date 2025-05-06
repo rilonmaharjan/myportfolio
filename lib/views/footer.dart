@@ -5,86 +5,32 @@ class Footer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isMobile = MediaQuery.of(context).size.width < 600;
+    final isMobile = MediaQuery.of(context).size.width < 400;
+    final isTablet = MediaQuery.of(context).size.width < 800;
 
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: isMobile ? 20 : 100,
         vertical: 30,
       ),
-      color: Colors.grey.withValues(alpha:0.05),
+      color: Colors.grey.withOpacity(0.05), // Fixed color syntax
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          if (!isMobile)
+          if (!isMobile && !isTablet)
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'My Portfolio',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    Text(
-                      'A showcase of my work and skills as a Flutter developer.',
-                      style: TextStyle(
-                        color: Colors.grey[400],
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    _buildSocialIcon(Icons.facebook),
-                    const SizedBox(width: 15),
-                    _buildSocialIcon(Icons.facebook),
-                    const SizedBox(width: 15),
-                    _buildSocialIcon(Icons.facebook),
-                    const SizedBox(width: 15),
-                    _buildSocialIcon(Icons.facebook),
-                  ],
-                ),
+                _buildAboutSection(),
+                _buildSocialIconsRow(),
               ],
             ),
-          if (isMobile)
+          if (isMobile || isTablet)
             Column(
               children: [
-                const Text(
-                  'My Portfolio',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                _buildAboutSection(isMobile: true, isTablet: true),
                 const SizedBox(height: 20),
-                Text(
-                  'A showcase of my work and skills as a Flutter developer.',
-                  style: TextStyle(
-                    color: Colors.grey[400],
-                    fontSize: 14,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _buildSocialIcon(Icons.facebook),
-                    const SizedBox(width: 15),
-                    _buildSocialIcon(Icons.facebook),
-                    const SizedBox(width: 15),
-                    _buildSocialIcon(Icons.facebook),
-                    const SizedBox(width: 15),
-                    _buildSocialIcon(Icons.facebook),
-                  ],
-                ),
+                _buildSocialIconsRow(center: true),
               ],
             ),
           const SizedBox(height: 30),
@@ -92,13 +38,55 @@ class Footer extends StatelessWidget {
           const SizedBox(height: 20),
           Text(
             '© ${DateTime.now().year} My Portfolio. All rights reserved.',
+            textAlign: TextAlign.center,
             style: TextStyle(
-              color: Colors.grey[400],
+              color: Colors.grey[600],
               fontSize: 12,
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildAboutSection({bool isMobile = false, bool isTablet = false}) {
+    return Column(
+      crossAxisAlignment:
+          isMobile || isTablet ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+      children: [
+        Text(
+          'My Portfolio',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 10),
+        Text(
+          'A showcase of my work and skills as a Flutter developer.',
+          textAlign: isMobile || isTablet ? TextAlign.center : TextAlign.start,
+          style: TextStyle(
+            color: Colors.grey[600],
+            fontSize: 14,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSocialIconsRow({bool center = false}) {
+    return Row(
+      mainAxisAlignment:
+          center ? MainAxisAlignment.center : MainAxisAlignment.start,
+      children: [
+        _buildSocialIcon(Icons.facebook),
+        const SizedBox(width: 15),
+        _buildSocialIcon(Icons.email),
+        const SizedBox(width: 15),
+        _buildSocialIcon(Icons.facebook),
+        const SizedBox(width: 15),
+        _buildSocialIcon(Icons.email),
+      ],
     );
   }
 

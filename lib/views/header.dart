@@ -46,6 +46,9 @@ class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
 
   void _updateActiveSection() {
     final scrollPosition = widget.scrollController.position.pixels;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final viewportCenter = scrollPosition + screenHeight / 2;
+
     double closestDistance = double.infinity;
     int newActiveIndex = 0;
 
@@ -55,9 +58,10 @@ class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
       if (context != null) {
         final box = context.findRenderObject() as RenderBox?;
         if (box != null) {
-          final position = box.localToGlobal(Offset.zero).dy;
-          final distance = (position - scrollPosition).abs();
-          
+          final position = box.localToGlobal(Offset.zero).dy + scrollPosition;
+          final sectionCenter = position + box.size.height / 2;
+          final distance = (sectionCenter - viewportCenter).abs();
+
           if (distance < closestDistance) {
             closestDistance = distance;
             newActiveIndex = i;
@@ -73,6 +77,7 @@ class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
     }
   }
 
+
   Future<void> _scrollToSection(int index) async {
     final key = widget.sectionKeys[index];
     final context = key.currentContext;
@@ -81,7 +86,7 @@ class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
         context,
         duration: const Duration(milliseconds: 500),
         curve: Curves.easeInOut,
-        alignment: 0.3, // Align to 30% from top of viewport
+        alignment: 0.1, // adjust this if needed
       );
     }
   }
@@ -110,54 +115,57 @@ class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
           horizontal: isMobile ? 20 : isTablet ? 40 : 100,
           vertical: 8,
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            // Logo/Title
-            Flexible(
-              child: FadeTransition(
-                opacity: _animation,
-                child: Text(
-                  'My Portfolio',
-                  style: TextStyle(
-                    fontSize: isMobile ? 20 : 24,
-                    fontWeight: FontWeight.bold,
-                    color: theme.textTheme.titleLarge?.color,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ),
-
-            // Navigation items
-            if (!isMobile)
-              Flexible(
-                child: FadeTransition(
-                  opacity: _animation,
-                  child: Row(
-                    children: [
-                      Spacer(),
-                      _buildNavItem('About', 0),
-                      _buildNavItem('Skills', 1),
-                      _buildNavItem('Experience', 2),
-                      _buildNavItem('Projects', 3),
-                      _buildNavItem('Contact', 4),
-                      const SizedBox(width: 16),
-                      IconButton(
-                        icon: Icon(
-                          theme.brightness == Brightness.dark
-                              ? Icons.light_mode
-                              : Icons.dark_mode,
-                        ),
-                        onPressed: widget.toggleTheme,
-                      ),
-                      const SizedBox(width: 20),
-                    ],
-                  ),
-                ),
-              ),
-          ],
+        child:  Row(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+    // Logo/Title
+    Flexible(
+      child: FadeTransition(
+        opacity: _animation,
+        child: Text(
+          'My Portfolio',
+          style: TextStyle(
+            fontSize: isMobile ? 20 : 24,
+            fontWeight: FontWeight.bold,
+            color: theme.textTheme.titleLarge?.color,
+          ),
+          overflow: TextOverflow.ellipsis,
         ),
+      ),
+    ),
+
+    // Navigation items
+    if (!isMobile)
+      Flexible(
+        child: FadeTransition(
+          opacity: _animation,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                _buildNavItem('About', 0),
+                _buildNavItem('Skills', 1),
+                _buildNavItem('Experience', 2),
+                _buildNavItem('Projects', 3),
+                _buildNavItem('Contact', 4),
+                const SizedBox(width: 16),
+                IconButton(
+                  icon: Icon(
+                    theme.brightness == Brightness.dark
+                        ? Icons.light_mode
+                        : Icons.dark_mode,
+                  ),
+                  onPressed: widget.toggleTheme,
+                ),
+                const SizedBox(width: 20),
+              ],
+            ),
+          ),
+        ),
+      ),
+  ],
+),
+
       ),
     );
   }
