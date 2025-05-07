@@ -112,7 +112,7 @@ class _AboutSectionState extends State<AboutSection> {
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
-        color: Colors.grey.withValues(alpha:0.1),
+        color: Colors.grey.withValues(alpha:0.2),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
