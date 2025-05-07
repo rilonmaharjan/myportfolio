@@ -6,6 +6,11 @@ import 'package:portfolio/views/footer.dart';
 import 'package:portfolio/views/header.dart';
 import 'package:portfolio/views/project_section.dart';
 import 'package:portfolio/views/skill_section.dart';
+import 'package:portfolio/widget/animated_bubble_bg.dart';
+import 'package:portfolio/widget/gradient_bg.dart';
+// import 'package:portfolio/widget/floating_buble_bg.dart';
+// import 'package:portfolio/widget/particle_animated_bg.dart';
+// import 'package:portfolio/widget/wave_bg.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -40,29 +45,38 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         appBar: isMobile ? _buildMobileAppBar() : null,
         drawer: isMobile ? _buildMobileDrawer(isMobile) : null,
-        body: CustomScrollView(
-          controller: _scrollController,
-          slivers: [
-            if (!isMobile)
-              SliverPersistentHeader(
-                pinned: true,
-                delegate: _StickyHeaderDelegate(
-                  child: Header(
-                    sectionKeys: _sectionKeys,
-                    toggleTheme: _toggleTheme,
-                    scrollController: _scrollController,
+        body: Stack(
+          children: [
+            AnimatedGradientBackground(),
+            // WaveBackground(),
+            // ParticleBackground(),
+            // FloatingBubblesBackground(),
+            const AnimatedBackground(),
+            CustomScrollView(
+              controller: _scrollController,
+              slivers: [
+                if (!isMobile)
+                  SliverPersistentHeader(
+                    pinned: true,
+                    delegate: _StickyHeaderDelegate(
+                      child: Header(
+                        sectionKeys: _sectionKeys,
+                        toggleTheme: _toggleTheme,
+                        scrollController: _scrollController,
+                      ),
+                    ),
                   ),
+                SliverList(
+                  delegate: SliverChildListDelegate([
+                    AboutSection(key: _sectionKeys[0]),
+                    SkillsSection(key: _sectionKeys[1]),
+                    ExperienceSection(key: _sectionKeys[2]),
+                    ProjectsSection(key: _sectionKeys[3]),
+                    ContactSection(key: _sectionKeys[4]),
+                    const Footer(),
+                  ]),
                 ),
-              ),
-            SliverList(
-              delegate: SliverChildListDelegate([
-                AboutSection(key: _sectionKeys[0]),
-                SkillsSection(key: _sectionKeys[1]),
-                ExperienceSection(key: _sectionKeys[2]),
-                ProjectsSection(key: _sectionKeys[3]),
-                ContactSection(key: _sectionKeys[4]),
-                const Footer(),
-              ]),
+              ],
             ),
           ],
         ),

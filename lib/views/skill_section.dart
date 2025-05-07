@@ -27,7 +27,7 @@ class _SkillsSectionState extends State<SkillsSection> {
         horizontal: isMobile ? 20 : isTablet ? 40 : 100,
         vertical: 80,
       ),
-      color: Colors.grey.withValues(alpha:0.05),
+      color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha:0.1),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

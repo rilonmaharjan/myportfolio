@@ -13,7 +13,7 @@ class Footer extends StatelessWidget {
         horizontal: isMobile ? 20 : 100,
         vertical: 30,
       ),
-      color: Colors.grey.withOpacity(0.05), // Fixed color syntax
+      color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha:0.1),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
