@@ -105,7 +105,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                   experience['period'],
                   style: TextStyle(
                     fontSize: 14,
-                    color: const Color.fromARGB(255, 245, 192, 255),
+                    color: Colors.purpleAccent,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
