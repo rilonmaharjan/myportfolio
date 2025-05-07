@@ -16,7 +16,7 @@ class _SkillsSectionState extends State<SkillsSection> {
     {'name': 'Firebase', 'level': 0.8, 'color': Colors.orange},
     {'name': 'UI/UX Design', 'level': 0.75, 'color': Colors.purple},
     {'name': 'JavaScript', 'level': 0.7, 'color': Colors.yellow[700]!},
-    {'name': 'Node.js', 'level': 0.65, 'color': Colors.green},
+    {'name': 'HTML/CSS', 'level': 0.65, 'color': Colors.green},
   ];
 
   late List<bool> isHoverList;

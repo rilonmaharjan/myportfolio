@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:portfolio/constant/constant.dart';
 
 class AboutSection extends StatefulWidget {
   const AboutSection({super.key});
@@ -54,7 +55,7 @@ class _AboutSectionState extends State<AboutSection> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Hello! I\'m [Your Name]',
+                      'Hello! I\'m $name',
                       style: TextStyle(
                         fontSize: isMobile ? 22 : 28,
                         fontWeight: FontWeight.bold,
@@ -62,8 +63,8 @@ class _AboutSectionState extends State<AboutSection> {
                     ),
                     const SizedBox(height: 20),
                     Text(
-                      'I\'m a passionate [Your Profession] with [X] years of experience in building amazing digital experiences. '
-                      'I specialize in [Your Skills] and love to create efficient, scalable, and user-friendly applications.',
+                      'I\'m a passionate $profession with $expereince years of experience in building amazing digital experiences. '
+                      'I specialize in $skills and love to create efficient, scalable, and user-friendly applications.',
                       style: TextStyle(
                         fontSize: isMobile ? 16 : 18,
                         height: 1.6,
@@ -74,9 +75,9 @@ class _AboutSectionState extends State<AboutSection> {
                       spacing: 10,
                       runSpacing: 10,
                       children: [
-                        _buildInfoItem('Location:', 'Your City, Country'),
-                        _buildInfoItem('Email:', 'your.email@example.com'),
-                        _buildInfoItem('Phone:', '+1234567890'),
+                        _buildInfoItem('Location:', location),
+                        _buildInfoItem('Email:', email),
+                        _buildInfoItem('Phone:', phone),
                         _buildInfoItem('Freelance:', 'Available'),
                       ],
                     ),

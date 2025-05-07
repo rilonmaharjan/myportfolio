@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:portfolio/constant/constant.dart';
 
 class ContactSection extends StatefulWidget {
   final bool isDarkMode;
@@ -63,12 +64,12 @@ class _ContactSectionState extends State<ContactSection> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _buildContactInfo(
-                              Icons.email, 'Email', 'your.email@example.com'),
+                              Icons.email, 'Email', email),
                           const SizedBox(height: 30),
-                          _buildContactInfo(Icons.phone, 'Phone', '+1234567890'),
+                          _buildContactInfo(Icons.phone, 'Phone', phone),
                           const SizedBox(height: 30),
                           _buildContactInfo(
-                              Icons.location_on, 'Location', 'Your City, Country'),
+                              Icons.location_on, 'Location', location),
                           const SizedBox(height: 40),
                           _buildForm(isMobile),
                         ],

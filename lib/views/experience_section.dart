@@ -12,23 +12,16 @@ class ExperienceSection extends StatefulWidget {
 class _ExperienceSectionState extends State<ExperienceSection> {
   final List<Map<String, dynamic>> experiences = [
     {
-      'title': 'Senior Flutter Developer',
-      'company': 'Tech Company Inc.',
-      'period': '2021 - Present',
-      'description':
-          'Leading the Flutter development team and architecting mobile applications for clients worldwide.',
-    },
-    {
       'title': 'Flutter Developer',
-      'company': 'Startup Solutions',
-      'period': '2019 - 2021',
+      'company': 'Miracle Interface',
+      'period': '2022 - 2025',
       'description':
           'Developed and maintained cross-platform mobile applications using Flutter framework.',
     },
     {
       'title': 'Junior Mobile Developer',
       'company': 'Digital Agency',
-      'period': '2018 - 2019',
+      'period': '2020 - 2022',
       'description':
           'Worked on various mobile projects and learned the fundamentals of mobile development.',
     },
