@@ -56,31 +56,31 @@ class _HomeScreenState extends State<HomeScreen> {
             // ParticleBackground(),
             // FloatingBubblesBackground(),
             const AnimatedBackground(),
-            CustomScrollView(
+            SingleChildScrollView(
               controller: _scrollController,
-              slivers: [
-                if (!isMobile)
-                  SliverPersistentHeader(
-                    pinned: true,
-                    delegate: _StickyHeaderDelegate(
-                      child: Header(
-                        sectionKeys: _sectionKeys,
-                        toggleTheme: _toggleTheme,
-                        scrollController: _scrollController,
+              child: Column(
+                children: [
+                  Visibility(
+                    visible: !isMobile,
+                    child: ClipRRect(
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                        child: Header(
+                          sectionKeys: _sectionKeys,
+                          toggleTheme: _toggleTheme,
+                          scrollController: _scrollController,
+                        ),
                       ),
                     ),
                   ),
-                SliverList(
-                  delegate: SliverChildListDelegate([
-                    AboutSection(key: _sectionKeys[0]),
-                    SkillsSection(key: _sectionKeys[1]),
-                    ExperienceSection(key: _sectionKeys[2]),
-                    ProjectsSection(key: _sectionKeys[3]),
-                    ContactSection(key: _sectionKeys[4]),
-                    const Footer(),
-                  ]),
-                ),
-              ],
+                  AboutSection(key: _sectionKeys[0]),
+                  SkillsSection(key: _sectionKeys[1]),
+                  ExperienceSection(key: _sectionKeys[2]),
+                  ProjectsSection(key: _sectionKeys[3]),
+                  ContactSection(key: _sectionKeys[4]),
+                  const Footer(),
+                ],
+              )
             ),
           ],
         ),
@@ -184,32 +184,5 @@ class _HomeScreenState extends State<HomeScreen> {
         Navigator.pop(context); // Close drawer after navigation
       }
     }
-  }
-}
-
-class _StickyHeaderDelegate extends SliverPersistentHeaderDelegate {
-  final Widget child;
-
-  _StickyHeaderDelegate({required this.child});
-
-  @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return ClipRRect(
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0), // adjust as needed
-        child: child,
-      ),
-    );
-  }
-
-  @override
-  double get maxExtent => kToolbarHeight;
-
-  @override
-  double get minExtent => kToolbarHeight;
-
-  @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    return false;
   }
 }

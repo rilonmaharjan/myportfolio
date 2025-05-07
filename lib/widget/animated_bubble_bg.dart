@@ -19,7 +19,7 @@ class _AnimatedBackgroundState extends State<AnimatedBackground> with SingleTick
       ..addListener(() => setState(() {}))
       ..repeat();
 
-    _bubbles = List.generate(8, (index) => Bubble());
+    _bubbles = List.generate(7, (index) => Bubble());
   }
 
   @override
@@ -40,7 +40,7 @@ class _AnimatedBackgroundState extends State<AnimatedBackground> with SingleTick
 class Bubble {
   double x = Random().nextDouble();
   double y = Random().nextDouble();
-  double radius = Random().nextDouble() * 30 + 20;
+  double radius = Random().nextDouble() * 50 + 30;
   double speed = Random().nextDouble() * 0.0009 + 0.0007;
   Color color = Colors.grey.withValues(alpha: (Random().nextDouble() * 0.2 + 0.05));
 
