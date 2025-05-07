@@ -14,9 +14,9 @@ class _AnimatedGradientBackgroundState extends State<AnimatedGradientBackground>
   late Animation<double> _animation;
 
   List<Color> colorList = [
-        Colors.blue.withValues(alpha:0.2),
+        Colors.blue.withValues(alpha:0.3),
         Colors.purple.withValues(alpha:0.2),
-        Colors.deepPurple.withValues(alpha:0.2),
+        Colors.deepPurple.withValues(alpha:0.3),
         Colors.indigo.withValues(alpha:0.2),
       ];
 
@@ -27,8 +27,8 @@ class _AnimatedGradientBackgroundState extends State<AnimatedGradientBackground>
     Alignment.topLeft,
   ];
   int index = 0;
-  Color bottomColor = Colors.blue;
-  Color topColor = Colors.indigo;
+  Color bottomColor = Colors.blue.withValues(alpha:0.4);
+  Color topColor = Colors.indigo.withValues(alpha:0.4);
   Alignment begin = Alignment.bottomLeft;
   Alignment end = Alignment.topRight;
 
@@ -37,7 +37,7 @@ class _AnimatedGradientBackgroundState extends State<AnimatedGradientBackground>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 3),
+      duration: Duration(seconds: 2),
     )..repeat();
     
     _animation = Tween<double>(begin: 0, end: 1).animate(_controller)
@@ -77,7 +77,7 @@ class _AnimatedGradientBackgroundState extends State<AnimatedGradientBackground>
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: Duration(seconds: 2),
+      duration: Duration(seconds: 1),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: begin,
