@@ -83,10 +83,6 @@ class Footer extends StatelessWidget {
         _buildSocialIcon(Icons.facebook),
         const SizedBox(width: 15),
         _buildSocialIcon(Icons.email),
-        const SizedBox(width: 15),
-        _buildSocialIcon(Icons.facebook),
-        const SizedBox(width: 15),
-        _buildSocialIcon(Icons.email),
       ],
     );
   }
