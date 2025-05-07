@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:portfolio/constant/constant.dart';
+import 'package:portfolio/constant/utils.dart';
 
 class ContactSection extends StatefulWidget {
   final bool isDarkMode;
@@ -64,12 +65,12 @@ class _ContactSectionState extends State<ContactSection> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _buildContactInfo(
-                              Icons.email, 'Email', email),
+                              Icons.email, 'Email', email, () => AppUtils().openLinkWithUrl('mailto:$email')),
                           const SizedBox(height: 30),
-                          _buildContactInfo(Icons.phone, 'Phone', phone),
+                          _buildContactInfo(Icons.phone, 'Phone', phone, () => AppUtils().openLinkWithUrl('tel:$phone')),
                           const SizedBox(height: 30),
                           _buildContactInfo(
-                              Icons.location_on, 'Location', location),
+                              Icons.location_on, 'Location', location, (){}),
                           const SizedBox(height: 40),
                           _buildForm(isMobile),
                         ],
@@ -83,13 +84,13 @@ class _ContactSectionState extends State<ContactSection> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 _buildContactInfo(
-                                    Icons.email, 'Email', 'your.email@example.com'),
+                                    Icons.email, 'Email', email, () => AppUtils().openLinkWithUrl('mailto:$email')),
                                 const SizedBox(height: 30),
                                 _buildContactInfo(
-                                    Icons.phone, 'Phone', '+1234567890'),
+                                    Icons.phone, 'Phone', phone, () => AppUtils().openLinkWithUrl('tel:$phone')),
                                 const SizedBox(height: 30),
                                 _buildContactInfo(Icons.location_on, 'Location',
-                                    'Your City, Country'),
+                                    location, (){}),
                               ],
                             ),
                           ),
@@ -214,36 +215,39 @@ class _ContactSectionState extends State<ContactSection> {
     );
   }
 
-  Widget _buildContactInfo(IconData icon, String title, String value) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(
-          icon,
-          size: 24,
-        ),
-        const SizedBox(width: 15),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+  Widget _buildContactInfo(IconData icon, String title, String value, VoidCallback onTap) {
+    return InkWell(
+      onTap : onTap,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(
+            icon,
+            size: 24,
+          ),
+          const SizedBox(width: 15),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(height: 5),
-            Text(
-              value,
-              style: TextStyle(
-                fontSize: 14,
-                color: widget.isDarkMode == true ? Colors.grey[400] : Colors.grey[700],
+              const SizedBox(height: 5),
+              Text(
+                value,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: widget.isDarkMode == true ? Colors.grey[400] : Colors.grey[700],
+                ),
               ),
-            ),
-          ],
-        ),
-      ],
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

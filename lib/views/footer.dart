@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:portfolio/constant/constant.dart';
+import 'package:portfolio/constant/utils.dart';
 
 class Footer extends StatelessWidget {
   final bool isDarkMode;
@@ -14,7 +18,7 @@ class Footer extends StatelessWidget {
         horizontal: isMobile ? 20 : isTablet ? 40 : 100,
         vertical: isMobile ? 40 : 60,
       ),
-      color: Colors.grey.withValues(alpha:0.00),
+      color: Colors.grey.withValues(alpha:0.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -41,7 +45,7 @@ class Footer extends StatelessWidget {
             '© ${DateTime.now().year} My Portfolio. All rights reserved.',
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: isDarkMode == true ? Colors.grey[400] : Colors.grey[700],
+              color: isDarkMode ? Colors.grey[400] : Colors.grey[700],
               fontSize: 12,
             ),
           ),
@@ -67,7 +71,7 @@ class Footer extends StatelessWidget {
           'A showcase of my work and skills as a Flutter developer.',
           textAlign: isMobile || isTablet ? TextAlign.center : TextAlign.start,
           style: TextStyle(
-            color: isDarkMode == true ? Colors.grey[400] : Colors.grey[700],
+            color: isDarkMode ? Colors.grey[400] : Colors.grey[700],
             fontSize: 14,
           ),
         ),
@@ -80,25 +84,28 @@ class Footer extends StatelessWidget {
       mainAxisAlignment:
           center ? MainAxisAlignment.center : MainAxisAlignment.start,
       children: [
-        _buildSocialIcon(Icons.facebook),
+        _buildSocialIcon(Icons.facebook, () => AppUtils().openLinkWithUrl(Platform.isIOS ? "fb://profile/101948562518590" : "fb://page/101948562518590")),
         const SizedBox(width: 15),
-        _buildSocialIcon(Icons.email),
+        _buildSocialIcon(Icons.email, () => AppUtils().openLinkWithUrl('mailto:$email')),
       ],
     );
   }
 
-  Widget _buildSocialIcon(IconData icon) {
-    return Container(
-      width: 40,
-      height: 40,
-      decoration: BoxDecoration(
-        color: Colors.grey[800],
-        shape: BoxShape.circle,
-      ),
-      child: Icon(
-        icon,
-        color: Colors.white,
-        size: 20,
+  Widget _buildSocialIcon(IconData icon, VoidCallback onTap) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          color: Colors.grey[800],
+          shape: BoxShape.circle,
+        ),
+        child: Icon(
+          icon,
+          color: Colors.white,
+          size: 20,
+        ),
       ),
     );
   }

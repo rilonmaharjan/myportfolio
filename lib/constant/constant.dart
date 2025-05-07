@@ -1,5 +1,5 @@
 String name         = "Rilon Maharjan";
-String location     = "Sankhuwa, Nepal";
+String location     = "Sankhamul, Nepal";
 String email        = "rilon.maharjan@gmail.com";
 String phone        = "+977 9861333461";
 String profession   = "Flutter Developer";
