@@ -19,7 +19,7 @@ class _SkillsSectionState extends State<SkillsSection> {
 
   @override
   Widget build(BuildContext context) {
-    final isMobile = MediaQuery.of(context).size.width < 600;
+    final isMobile = MediaQuery.of(context).size.width < 700;
     final isTablet = MediaQuery.of(context).size.width < 1000;
 
     return Container(

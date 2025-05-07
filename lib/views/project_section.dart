@@ -102,7 +102,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: Card(
-        color: Theme.of(context).colorScheme.surfaceContainerLowest.withValues(alpha:0.2),
+        color: Colors.grey.withValues(alpha:0.15),
         shadowColor: Colors.transparent,
         elevation: 4,
         shape: RoundedRectangleBorder(

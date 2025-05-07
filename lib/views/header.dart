@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class Header extends StatefulWidget {
@@ -99,9 +101,7 @@ class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
 
     return Container(
       decoration: BoxDecoration(
-        color: theme.brightness == Brightness.dark
-              ? const Color(0xff141218)
-              : const Color.fromARGB(255, 247, 247, 247),
+        color: Colors.transparent,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha:0.1),
@@ -116,8 +116,8 @@ class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
           vertical: 8,
         ),
         child:  Row(
-  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  children: [
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
     // Logo/Title
     Flexible(
       child: FadeTransition(
@@ -133,7 +133,7 @@ class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
         ),
       ),
     ),
-
+    
     // Navigation items
     if (!isMobile)
       Flexible(
@@ -163,9 +163,9 @@ class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
           ),
         ),
       ),
-  ],
-),
-
+      ],
+    ),
+    
       ),
     );
   }

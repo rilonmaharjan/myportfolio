@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:portfolio/views/about_section.dart';
 import 'package:portfolio/views/contact_section.dart';
@@ -85,15 +87,25 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   PreferredSizeWidget _buildMobileAppBar() {
-    return AppBar(
-      title: const Text('My Portfolio'),
-      centerTitle: true,
-      actions: [
-        IconButton(
-          icon: Icon(_isDarkMode ? Icons.light_mode : Icons.dark_mode),
-          onPressed: _toggleTheme,
+    return PreferredSize(
+      preferredSize: Size.fromHeight(kToolbarHeight),
+      child: ClipRRect(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+          child: AppBar(
+            backgroundColor: Colors.transparent,
+            title: const Text('My Portfolio'),
+            centerTitle: true,
+            elevation: 0,
+            actions: [
+              IconButton(
+                icon: Icon(_isDarkMode ? Icons.light_mode : Icons.dark_mode),
+                onPressed: _toggleTheme,
+              ),
+            ],
+          ),
         ),
-      ],
+      ),
     );
   }
 
@@ -180,7 +192,12 @@ class _StickyHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return child;
+    return ClipRRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0), // adjust as needed
+        child: child,
+      ),
+    );
   }
 
   @override
