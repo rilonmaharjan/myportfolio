@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:portfolio/constant/constant.dart';
 import 'package:portfolio/constant/utils.dart';
@@ -84,10 +85,10 @@ class _ContactSectionState extends State<ContactSection> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 _buildContactInfo(
-                                    Icons.email, 'Email', email, () => AppUtils().openLinkWithUrl('mailto:$email')),
+                                    Icons.email, 'Email', email, () { if(!kIsWeb) {AppUtils().openLinkWithUrl('mailto:$email');}}),
                                 const SizedBox(height: 30),
                                 _buildContactInfo(
-                                    Icons.phone, 'Phone', phone, () => AppUtils().openLinkWithUrl('tel:$phone')),
+                                    Icons.phone, 'Phone', phone, () { if(!kIsWeb) {AppUtils().openLinkWithUrl('tel:$phone');}}),
                                 const SizedBox(height: 30),
                                 _buildContactInfo(Icons.location_on, 'Location',
                                     location, (){}),

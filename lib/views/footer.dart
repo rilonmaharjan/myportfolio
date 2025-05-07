@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:portfolio/constant/constant.dart';
 import 'package:portfolio/constant/utils.dart';
@@ -84,14 +85,14 @@ class Footer extends StatelessWidget {
       mainAxisAlignment:
           center ? MainAxisAlignment.center : MainAxisAlignment.start,
       children: [
-        _buildSocialIcon(Icons.facebook, () => AppUtils().openLinkWithUrl(Platform.isIOS ? "fb://profile/101948562518590" : "fb://page/101948562518590")),
+        _buildSocialIcon(Icons.facebook, () => AppUtils().openLinkWithUrl(kIsWeb ? "https://www.facebook.com/rilonmhrzn" : Platform.isIOS ? "fb://profile/101948562518590" : "fb://page/101948562518590")),
         const SizedBox(width: 15),
-        _buildSocialIcon(Icons.email, () => AppUtils().openLinkWithUrl('mailto:$email')),
+        _buildSocialIcon(Icons.email, () { if(!kIsWeb) {AppUtils().openLinkWithUrl('mailto:$email');}}),
       ],
     );
   }
 
-  Widget _buildSocialIcon(IconData icon, VoidCallback onTap) {
+  Widget _buildSocialIcon(IconData icon, VoidCallback onTap) {    
     return InkWell(
       onTap: onTap,
       child: Container(
