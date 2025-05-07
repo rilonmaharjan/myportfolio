@@ -93,13 +93,16 @@ class _AboutSectionState extends State<AboutSection> {
                         ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5),
+                          side: BorderSide(
+                            color: Theme.of(context).textTheme.labelLarge!.color!.withValues(alpha: 0.3),
+                          ),
                         ),
                       ),
                       child: const Text(
                         'Download CV',
                         style: TextStyle(fontSize: 16),
                       ),
-                    ),
+                    )
                   ],
                 ),
               ),
