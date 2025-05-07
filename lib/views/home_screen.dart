@@ -50,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
         drawer: isMobile ? _buildMobileDrawer(isMobile) : null,
         body: Stack(
           children: [
-            AnimatedGradientBackground(isMobile: isMobile,),
+            AnimatedGradientBackground(isDarkMode: _isDarkMode,),
             // LiquidWaveBackground(),
             // WaveBackground(),
             // ParticleBackground(),

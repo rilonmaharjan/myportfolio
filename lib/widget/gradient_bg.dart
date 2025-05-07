@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AnimatedGradientBackground extends StatefulWidget {
-  final bool isMobile ;
-  const AnimatedGradientBackground({super.key, required this.isMobile,});
+  final bool isDarkMode;
+  const AnimatedGradientBackground({super.key, required this.isDarkMode,});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -14,12 +14,7 @@ class _AnimatedGradientBackgroundState extends State<AnimatedGradientBackground>
   late AnimationController _controller;
   late Animation<double> _animation;
 
-  List<Color> colorList = [
-        Colors.blue.withValues(alpha: 0.3),
-        Colors.purple.withValues(alpha:0.2),
-        Colors.deepPurple.withValues(alpha:0.3),
-        Colors.indigo.withValues(alpha:0.2),
-      ];
+  List<Color> colorList = [];
 
   final List<Alignment> alignmentList = [
     Alignment.bottomLeft,
@@ -28,7 +23,7 @@ class _AnimatedGradientBackgroundState extends State<AnimatedGradientBackground>
     Alignment.topLeft,
   ];
   int index = 0;
-  Color bottomColor = Colors.blue.withValues(alpha:0.4);
+  Color bottomColor = Colors.blue.withValues(alpha: 0.4);
   Color topColor = Colors.indigo.withValues(alpha:0.4);
   Alignment begin = Alignment.bottomLeft;
   Alignment end = Alignment.topRight;
@@ -37,13 +32,13 @@ class _AnimatedGradientBackgroundState extends State<AnimatedGradientBackground>
   void initState() {
     super.initState();
     colorList = [
-        Colors.blue.withValues(alpha: widget.isMobile ? 0.2 : 0.3),
-        Colors.purple.withValues(alpha: widget.isMobile ? 0.2 : 0.2),
-        Colors.deepPurple.withValues(alpha: widget.isMobile ? 0.2 : 0.3),
-        Colors.indigo.withValues(alpha: widget.isMobile ? 0.2 : 0.2),
+        Colors.blue.withValues(alpha: widget.isDarkMode ? 0.15 : 0.5),
+        Colors.purple.withValues(alpha: widget.isDarkMode ? 0.2 : 0.35),
+        Colors.deepPurple.withValues(alpha: widget.isDarkMode ? 0.15 : 0.35),
+        Colors.indigo.withValues(alpha: widget.isDarkMode ? 0.2 : 0.5),
       ];
-      bottomColor = Colors.blue.withValues(alpha: widget.isMobile ? 0.2 : 0.4);
-      topColor = Colors.indigo.withValues(alpha: widget.isMobile ? 0.2 : 0.4);
+      bottomColor = Colors.blue.withValues(alpha: widget.isDarkMode ? 0.2 : 0.5);
+      topColor = Colors.indigo.withValues(alpha: widget.isDarkMode ? 0.2 : 0.5);
 
     _controller = AnimationController(
       vsync: this,
