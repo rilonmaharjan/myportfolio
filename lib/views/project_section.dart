@@ -3,7 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class ProjectsSection extends StatefulWidget {
-  const ProjectsSection({super.key});
+  final bool isDarkMode;
+  const ProjectsSection({super.key, required this.isDarkMode});
 
   @override
   State<ProjectsSection> createState() => _ProjectsSectionState();
@@ -48,7 +49,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
         horizontal: isMobile ? 20 : isTablet ? 40 : 100,
         vertical: isMobile ? 40 : 60,
       ),
-      color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha:0.1),
+      color: Colors.grey.withValues(alpha: widget.isDarkMode ? 0.03 : 0.1),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -107,7 +108,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
           child: Card(
-            color: Colors.grey.withValues(alpha:0.15),
+            color: Colors.grey.withValues(alpha:0.2),
             shadowColor: Colors.transparent,
             elevation: 4,
             shape: RoundedRectangleBorder(
@@ -130,7 +131,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                         loadingBuilder: (context, child, loadingProgress) {
                           if (loadingProgress == null) return child;
                           return Container(
-                            height: 180,
+                            height: 220,
                             color: Colors.grey.withValues(alpha:0.1),
                             child: Center(
                               child: CircularProgressIndicator(
@@ -144,7 +145,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                         },
                         errorBuilder: (context, error, stackTrace) {
                           return Container(
-                            height: 180,
+                            height: 220,
                             color: Colors.grey.withValues(alpha:0.1),
                             child: const Icon(Icons.broken_image),
                           );

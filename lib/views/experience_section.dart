@@ -1,9 +1,9 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 class ExperienceSection extends StatefulWidget {
-  const ExperienceSection({super.key});
+  final bool isDarkMode;
+  const ExperienceSection({super.key, required this.isDarkMode});
 
   @override
   State<ExperienceSection> createState() => _ExperienceSectionState();
@@ -33,6 +33,14 @@ class _ExperienceSectionState extends State<ExperienceSection> {
           'Worked on various mobile projects and learned the fundamentals of mobile development.',
     },
   ];
+
+  late List<bool> isHoverList;
+
+  @override
+  void initState() {
+    super.initState();
+    isHoverList = List.filled(experiences.length, false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,59 +78,64 @@ class _ExperienceSectionState extends State<ExperienceSection> {
   }
 
   Widget _buildExperienceItem(Map<String, dynamic> experience, int index) {
-    return AnimatedOpacity(
-      opacity: 1,
-      duration: Duration(milliseconds: 500 + (index * 200)),
-      child: AnimatedPadding(
-        duration: Duration(milliseconds: 500 + (index * 200)),
-        padding: const EdgeInsets.all(20),
-        curve: Curves.easeInOut,
-        child: ClipRRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.grey.withValues(alpha:0.15),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      experience['title'],
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+    return MouseRegion(
+      onEnter: (_) => setState(() => isHoverList[index] = true),
+      onExit: (_) => setState(() => isHoverList[index] = false),
+      child: AnimatedOpacity(
+        opacity: isHoverList[index] ? 0.95 : 1.0,
+        duration: Duration(milliseconds: 300),
+        child: AnimatedPadding(
+          duration: Duration(milliseconds: 500 + (index * 200)),
+          padding: const EdgeInsets.all(20),
+          curve: Curves.easeInOut,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey.withValues(alpha:isHoverList[index] ? 0.4 : 0.2),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        experience['title'],
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      experience['company'],
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey[600],
+                      const SizedBox(height: 5),
+                      Text(
+                        experience['company'],
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: widget.isDarkMode ? Colors.grey[400] : Colors.grey[700],
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      experience['period'],
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.purpleAccent,
-                        fontWeight: FontWeight.bold,
+                      const SizedBox(height: 10),
+                      Text(
+                        experience['period'],
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.purpleAccent,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 15),
-                    Text(
-                      experience['description'],
-                      style: const TextStyle(
-                        fontSize: 16,
-                        height: 1.6,
+                      const SizedBox(height: 15),
+                      Text(
+                        experience['description'],
+                        style: const TextStyle(
+                          fontSize: 16,
+                          height: 1.6,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

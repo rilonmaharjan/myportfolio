@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Footer extends StatelessWidget {
-  const Footer({super.key});
+  final bool isDarkMode;
+  const Footer({super.key, required this.isDarkMode});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,7 @@ class Footer extends StatelessWidget {
         horizontal: isMobile ? 20 : isTablet ? 40 : 100,
         vertical: isMobile ? 40 : 60,
       ),
-      color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha:0.1),
+      color: Colors.grey.withValues(alpha:0.00),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -40,7 +41,7 @@ class Footer extends StatelessWidget {
             '© ${DateTime.now().year} My Portfolio. All rights reserved.',
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: Colors.grey[600],
+              color: isDarkMode == true ? Colors.grey[400] : Colors.grey[700],
               fontSize: 12,
             ),
           ),
@@ -66,7 +67,7 @@ class Footer extends StatelessWidget {
           'A showcase of my work and skills as a Flutter developer.',
           textAlign: isMobile || isTablet ? TextAlign.center : TextAlign.start,
           style: TextStyle(
-            color: Colors.grey[600],
+            color: isDarkMode == true ? Colors.grey[400] : Colors.grey[700],
             fontSize: 14,
           ),
         ),

@@ -43,7 +43,7 @@ class Bubble {
   double y = Random().nextDouble();
   double radius = Random().nextDouble() * 50 + 30;
   double speed = Random().nextDouble() * 0.0009 + 0.0007;
-  Color color = Colors.grey.withValues(alpha: (Random().nextDouble() * 0.2 + 0.05));
+  Color color = Colors.grey.withValues(alpha: (Random().nextDouble() * 0.08 + 0.04));
 
   void update(double progress) {
     y -= speed;

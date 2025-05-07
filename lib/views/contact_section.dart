@@ -3,7 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class ContactSection extends StatefulWidget {
-  const ContactSection({super.key});
+  final bool isDarkMode;
+  const ContactSection({super.key, required this.isDarkMode});
 
   @override
   State<ContactSection> createState() => _ContactSectionState();
@@ -43,7 +44,7 @@ class _ContactSectionState extends State<ContactSection> {
               vertical: isMobile ? 20 : 50,
             ),
             decoration: BoxDecoration(
-              color: Colors.grey.withValues(alpha:0.15),
+              color: Colors.grey.withValues(alpha:0.2),
               borderRadius: BorderRadius.circular(14),
             ),
             child: Column(
@@ -236,7 +237,7 @@ class _ContactSectionState extends State<ContactSection> {
               value,
               style: TextStyle(
                 fontSize: 14,
-                color: Colors.grey[600],
+                color: widget.isDarkMode == true ? Colors.grey[400] : Colors.grey[700],
               ),
             ),
           ],
