@@ -46,7 +46,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return Theme(
       data: _isDarkMode ? ThemeData.dark() : ThemeData.light(),
       child: Scaffold(
-        appBar: isMobile ? _buildMobileAppBar() : null,
         drawer: isMobile ? _buildMobileDrawer(isMobile) : null,
         body: Stack(
           children: [
@@ -56,31 +55,39 @@ class _HomeScreenState extends State<HomeScreen> {
             // ParticleBackground(),
             // FloatingBubblesBackground(),
             AnimatedBackground(bubbleCount: isMobile ? 4 : 7,),
-            SingleChildScrollView(
-              controller: _scrollController,
-              child: Column(
-                children: [
-                  Visibility(
-                    visible: !isMobile,
-                    child: ClipRRect(
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-                        child: Header(
-                          sectionKeys: _sectionKeys,
-                          toggleTheme: _toggleTheme,
-                          scrollController: _scrollController,
-                        ),
+            Stack(
+              children: [
+                SingleChildScrollView(
+                  controller: _scrollController,
+                  child: Column(
+                    children: [
+                      AboutSection(key: _sectionKeys[0]),
+                      SkillsSection(key: _sectionKeys[1], isDarkMode: _isDarkMode,),
+                      ExperienceSection(key: _sectionKeys[2], isDarkMode: _isDarkMode),
+                      ProjectsSection(key: _sectionKeys[3], isDarkMode: _isDarkMode),
+                      ContactSection(key: _sectionKeys[4], isDarkMode: _isDarkMode),
+                      Footer(isDarkMode: _isDarkMode,),
+                    ],
+                  )
+                ),
+                Visibility(
+                  visible: isMobile ,
+                  child: _buildMobileAppBar()
+                ),
+                Visibility(
+                  visible: !isMobile,
+                  child: ClipRRect(
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                      child: Header(
+                        sectionKeys: _sectionKeys,
+                        toggleTheme: _toggleTheme,
+                        scrollController: _scrollController,
                       ),
                     ),
                   ),
-                  AboutSection(key: _sectionKeys[0]),
-                  SkillsSection(key: _sectionKeys[1], isDarkMode: _isDarkMode,),
-                  ExperienceSection(key: _sectionKeys[2], isDarkMode: _isDarkMode),
-                  ProjectsSection(key: _sectionKeys[3], isDarkMode: _isDarkMode),
-                  ContactSection(key: _sectionKeys[4], isDarkMode: _isDarkMode),
-                  Footer(isDarkMode: _isDarkMode,),
-                ],
-              )
+                ),
+              ],
             ),
           ],
         ),
@@ -88,38 +95,50 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  PreferredSizeWidget _buildMobileAppBar() {
-    return PreferredSize(
-      preferredSize: const Size(double.infinity, 75.0),
-      child: ClipRRect(
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-          child: SafeArea(
-            child: Container(
-              height: 65,
-              color: Colors.deepPurple.withAlpha(20),
-              child: Builder(
-                builder: (context) => Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
+  _buildMobileAppBar() {
+    return ClipRRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+        child: SafeArea(
+          child: Container(
+            height: 55,
+            decoration: BoxDecoration(
+              color: Colors.transparent,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha:0.1),
+                  blurRadius: 10,
+                  offset: const Offset(0, 5),
+                ),
+              ],
+            ),
+            child: Builder(
+              builder: (context) => Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: IconButton(
                       icon: const Icon(Icons.menu),
                       onPressed: () => Scaffold.of(context).openDrawer(),
                     ),
-                    Text(
-                      'My Portfolio',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: _isDarkMode ? Colors.white : Colors.black,
-                      ),
+                  ),
+                  Text(
+                    'My Portfolio',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).textTheme.titleLarge?.color,
                     ),
-                    IconButton(
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: IconButton(
                       icon: Icon(_isDarkMode ? Icons.light_mode : Icons.dark_mode),
                       onPressed: _toggleTheme,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

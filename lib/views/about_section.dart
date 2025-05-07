@@ -15,9 +15,11 @@ class _AboutSectionState extends State<AboutSection> {
     final isTablet = MediaQuery.of(context).size.width < 1000;
 
     return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: isMobile ? 20 : isTablet ? 40 : 100,
-        vertical: isMobile ? 40 : 60,
+      padding: EdgeInsets.fromLTRB(
+        isMobile ? 20 : isTablet ? 40 : 100,
+        isMobile ? 80 : 100,
+        isMobile ? 20 : isTablet ? 40 : 100,
+        isMobile ? 40 : 60,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
