@@ -17,7 +17,7 @@ class _AboutSectionState extends State<AboutSection> {
     return Container(
       padding: EdgeInsets.fromLTRB(
         isMobile ? 20 : isTablet ? 40 : 100,
-        isMobile ? 80 : 100,
+        120,
         isMobile ? 20 : isTablet ? 40 : 100,
         isMobile ? 40 : 60,
       ),
