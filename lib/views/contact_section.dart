@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class ContactSection extends StatefulWidget {
@@ -30,61 +32,76 @@ class _ContactSectionState extends State<ContactSection> {
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: isMobile ? 20 : isTablet ? 40 : 100,
-        vertical: isMobile ? 50 : 80,
+        vertical: isMobile ? 40 : 60,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Get In Touch',
-            style: TextStyle(
-              fontSize: isMobile ? 28 : 36,
-              fontWeight: FontWeight.bold,
+      child: ClipRRect(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: isMobile ? 20 : 50,
+              vertical: isMobile ? 20 : 50,
             ),
-          ),
-          const SizedBox(height: 40),
-          isTablet
-              ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildContactInfo(
-                        Icons.email, 'Email', 'your.email@example.com'),
-                    const SizedBox(height: 30),
-                    _buildContactInfo(Icons.phone, 'Phone', '+1234567890'),
-                    const SizedBox(height: 30),
-                    _buildContactInfo(
-                        Icons.location_on, 'Location', 'Your City, Country'),
-                    const SizedBox(height: 40),
-                    _buildForm(isMobile),
-                  ],
-                )
-              : Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Flexible(
-                      flex: 1,
-                      child: Column(
+            decoration: BoxDecoration(
+              color: Colors.grey.withValues(alpha:0.15),
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Get In Touch',
+                  style: TextStyle(
+                    fontSize: isMobile ? 28 : 36,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 40),
+                isTablet
+                    ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _buildContactInfo(
                               Icons.email, 'Email', 'your.email@example.com'),
                           const SizedBox(height: 30),
-                          _buildContactInfo(
-                              Icons.phone, 'Phone', '+1234567890'),
+                          _buildContactInfo(Icons.phone, 'Phone', '+1234567890'),
                           const SizedBox(height: 30),
-                          _buildContactInfo(Icons.location_on, 'Location',
-                              'Your City, Country'),
+                          _buildContactInfo(
+                              Icons.location_on, 'Location', 'Your City, Country'),
+                          const SizedBox(height: 40),
+                          _buildForm(isMobile),
+                        ],
+                      )
+                    : Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Flexible(
+                            flex: 1,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                _buildContactInfo(
+                                    Icons.email, 'Email', 'your.email@example.com'),
+                                const SizedBox(height: 30),
+                                _buildContactInfo(
+                                    Icons.phone, 'Phone', '+1234567890'),
+                                const SizedBox(height: 30),
+                                _buildContactInfo(Icons.location_on, 'Location',
+                                    'Your City, Country'),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 40),
+                          Flexible(
+                            flex: 2,
+                            child: _buildForm(isMobile),
+                          ),
                         ],
                       ),
-                    ),
-                    const SizedBox(width: 40),
-                    Flexible(
-                      flex: 2,
-                      child: _buildForm(isMobile),
-                    ),
-                  ],
-                ),
-        ],
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

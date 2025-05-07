@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class SkillsSection extends StatefulWidget {
@@ -25,7 +27,7 @@ class _SkillsSectionState extends State<SkillsSection> {
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: isMobile ? 20 : isTablet ? 40 : 100,
-        vertical: 80,
+        vertical: isMobile ? 40 : 60,
       ),
       color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha:0.1),
       child: Column(
@@ -68,48 +70,53 @@ class _SkillsSectionState extends State<SkillsSection> {
       tween: Tween<double>(begin: 0, end: skill['level']),
       duration: const Duration(milliseconds: 1000),
       builder: (context, double value, child) {
-        return Container(
-          padding: const EdgeInsets.all(15), // Reduced padding
-          constraints: const BoxConstraints(
-            minHeight: 100, // Minimum height to prevent overflow
-          ),
-          decoration: BoxDecoration(
-            color: Colors.grey.withValues(alpha:0.15),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween, // Better space distribution
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                skill['name'],
-                style: const TextStyle(
-                  fontSize: 16, // Slightly smaller font
-                  fontWeight: FontWeight.bold,
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+        return ClipRRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+            child: Container(
+              padding: const EdgeInsets.all(15), // Reduced padding
+              constraints: const BoxConstraints(
+                minHeight: 100, // Minimum height to prevent overflow
               ),
-              const SizedBox(height: 6),
-              LinearProgressIndicator(
-                value: value,
-                backgroundColor: Colors.grey[300],
-                color: skill['color'],
-                minHeight: 7, // Smaller progress bar
-                borderRadius: BorderRadius.circular(5),
+              decoration: BoxDecoration(
+                color: Colors.grey.withValues(alpha:0.15),
+                borderRadius: BorderRadius.circular(10),
               ),
-              const SizedBox(height: 6),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  '${(value * 100).toInt()}%',
-                  style: TextStyle(
-                    fontSize: 12, // Smaller percentage text
-                    color: Colors.grey[600],
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween, // Better space distribution
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    skill['name'],
+                    style: const TextStyle(
+                      fontSize: 16, // Slightly smaller font
+                      fontWeight: FontWeight.bold,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
+                  const SizedBox(height: 6),
+                  LinearProgressIndicator(
+                    value: value,
+                    backgroundColor: Colors.grey[300],
+                    color: skill['color'],
+                    minHeight: 7, // Smaller progress bar
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  const SizedBox(height: 6),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      '${(value * 100).toInt()}%',
+                      style: TextStyle(
+                        fontSize: 12, // Smaller percentage text
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         );
       },

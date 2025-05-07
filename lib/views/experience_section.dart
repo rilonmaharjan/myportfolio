@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class ExperienceSection extends StatefulWidget {
@@ -40,7 +42,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: isMobile ? 20 : isTablet ? 40 : 100,
-        vertical: 80,
+        vertical: isMobile ? 40 : 60,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,49 +77,54 @@ class _ExperienceSectionState extends State<ExperienceSection> {
         duration: Duration(milliseconds: 500 + (index * 200)),
         padding: const EdgeInsets.all(20),
         curve: Curves.easeInOut,
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.grey.withValues(alpha:0.15),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  experience['title'],
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+        child: ClipRRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.grey.withValues(alpha:0.15),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      experience['title'],
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      experience['company'],
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      experience['period'],
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.purpleAccent,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 15),
+                    Text(
+                      experience['description'],
+                      style: const TextStyle(
+                        fontSize: 16,
+                        height: 1.6,
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 5),
-                Text(
-                  experience['company'],
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey[600],
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  experience['period'],
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.purpleAccent,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 15),
-                Text(
-                  experience['description'],
-                  style: const TextStyle(
-                    fontSize: 16,
-                    height: 1.6,
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         ),

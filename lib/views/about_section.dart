@@ -16,7 +16,7 @@ class _AboutSectionState extends State<AboutSection> {
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: isMobile ? 20 : isTablet ? 40 : 100,
-        vertical: 80,
+        vertical: isMobile ? 40 : 60,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

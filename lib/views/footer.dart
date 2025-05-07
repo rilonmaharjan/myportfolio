@@ -10,8 +10,8 @@ class Footer extends StatelessWidget {
 
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: isMobile ? 20 : 100,
-        vertical: 30,
+        horizontal: isMobile ? 20 : isTablet ? 40 : 100,
+        vertical: isMobile ? 40 : 60,
       ),
       color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha:0.1),
       child: Column(
