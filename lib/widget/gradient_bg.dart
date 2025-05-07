@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AnimatedGradientBackground extends StatefulWidget {
-  const AnimatedGradientBackground({super.key,});
+  final bool isMobile ;
+  const AnimatedGradientBackground({super.key, required this.isMobile,});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -14,7 +15,7 @@ class _AnimatedGradientBackgroundState extends State<AnimatedGradientBackground>
   late Animation<double> _animation;
 
   List<Color> colorList = [
-        Colors.blue.withValues(alpha:0.3),
+        Colors.blue.withValues(alpha: 0.3),
         Colors.purple.withValues(alpha:0.2),
         Colors.deepPurple.withValues(alpha:0.3),
         Colors.indigo.withValues(alpha:0.2),
@@ -35,6 +36,15 @@ class _AnimatedGradientBackgroundState extends State<AnimatedGradientBackground>
   @override
   void initState() {
     super.initState();
+    colorList = [
+        Colors.blue.withValues(alpha: widget.isMobile ? 0.2 : 0.3),
+        Colors.purple.withValues(alpha: widget.isMobile ? 0.2 : 0.2),
+        Colors.deepPurple.withValues(alpha: widget.isMobile ? 0.2 : 0.3),
+        Colors.indigo.withValues(alpha: widget.isMobile ? 0.2 : 0.2),
+      ];
+      bottomColor = Colors.blue.withValues(alpha: widget.isMobile ? 0.2 : 0.4);
+      topColor = Colors.indigo.withValues(alpha: widget.isMobile ? 0.2 : 0.4);
+
     _controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: 2),

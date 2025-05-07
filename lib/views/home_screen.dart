@@ -50,12 +50,12 @@ class _HomeScreenState extends State<HomeScreen> {
         drawer: isMobile ? _buildMobileDrawer(isMobile) : null,
         body: Stack(
           children: [
-            AnimatedGradientBackground(),
+            AnimatedGradientBackground(isMobile: isMobile,),
             // LiquidWaveBackground(),
             // WaveBackground(),
             // ParticleBackground(),
             // FloatingBubblesBackground(),
-            const AnimatedBackground(),
+            AnimatedBackground(bubbleCount: isMobile ? 4 : 7,),
             SingleChildScrollView(
               controller: _scrollController,
               child: Column(
@@ -90,21 +90,38 @@ class _HomeScreenState extends State<HomeScreen> {
 
   PreferredSizeWidget _buildMobileAppBar() {
     return PreferredSize(
-      preferredSize: Size.fromHeight(kToolbarHeight),
+      preferredSize: const Size(double.infinity, 75.0),
       child: ClipRRect(
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-          child: AppBar(
-            backgroundColor: Colors.transparent,
-            title: const Text('My Portfolio'),
-            centerTitle: true,
-            elevation: 0,
-            actions: [
-              IconButton(
-                icon: Icon(_isDarkMode ? Icons.light_mode : Icons.dark_mode),
-                onPressed: _toggleTheme,
+          child: SafeArea(
+            child: Container(
+              height: 65,
+              color: Colors.deepPurple.withAlpha(20),
+              child: Builder(
+                builder: (context) => Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.menu),
+                      onPressed: () => Scaffold.of(context).openDrawer(),
+                    ),
+                    Text(
+                      'My Portfolio',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: _isDarkMode ? Colors.white : Colors.black,
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(_isDarkMode ? Icons.light_mode : Icons.dark_mode),
+                      onPressed: _toggleTheme,
+                    ),
+                  ],
+                ),
               ),
-            ],
+            ),
           ),
         ),
       ),
@@ -113,14 +130,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildMobileDrawer(isMobile) {
     return Drawer(
+      backgroundColor: _isDarkMode ? Colors.black : const Color.fromARGB(255, 244, 233, 253),
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
             decoration: BoxDecoration(
-              color:_isDarkMode
-              ? const Color.fromARGB(255, 39, 39, 39)
-              : const Color.fromARGB(255, 230, 230, 230),
+              color: Colors.deepPurple.withValues(alpha: isMobile ? 0.2 : 0.3)
             ),
             child: Text(
               'My Portfolio',

@@ -2,7 +2,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class AnimatedBackground extends StatefulWidget {
-  const AnimatedBackground({super.key});
+  final int bubbleCount;
+  const AnimatedBackground({super.key, required this.bubbleCount});
 
   @override
   State<AnimatedBackground> createState() => _AnimatedBackgroundState();
@@ -19,7 +20,7 @@ class _AnimatedBackgroundState extends State<AnimatedBackground> with SingleTick
       ..addListener(() => setState(() {}))
       ..repeat();
 
-    _bubbles = List.generate(7, (index) => Bubble());
+    _bubbles = List.generate(widget.bubbleCount, (index) => Bubble());
   }
 
   @override
