@@ -170,7 +170,7 @@ class _BackgroundPainter extends CustomPainter {
  
     // Draw subtle grid pattern
     final gridPaint = Paint()
-      ..color = colorScheme.onSurface.withValues(alpha: 0.1)
+      ..color = colorScheme.onSurface.withValues(alpha: 0.08)
       ..strokeWidth = 0.5;
    
     const gridSize = 40;

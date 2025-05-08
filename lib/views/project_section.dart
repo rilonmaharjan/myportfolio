@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:portfolio/constant/utils.dart';
 
@@ -75,12 +76,18 @@ class _ProjectsSectionState extends State<ProjectsSection> {
           LayoutBuilder(
             builder: (context, constraints) {
               // Dynamic grid configuration based on available width
-              final crossAxisCount = constraints.maxWidth > 1100
-                  ? 3
-                  : constraints.maxWidth > 800
+              final crossAxisCount = kIsWeb 
+                ? (constraints.maxWidth > 760
+                    ? 3
+                    : constraints.maxWidth > 550
                       ? 2
-                      : 1;
-              double childAspectRatio = constraints.maxWidth > 800 ? 0.95 : constraints.maxWidth > 400 ?  1.15 : 0.85;
+                      : 1)
+                : (constraints.maxWidth > 800
+                    ? 3
+                    : constraints.maxWidth > 500
+                      ? 2
+                      : 1);
+              double childAspectRatio = kIsWeb ? (constraints.maxWidth > 1060 ? 0.85 :constraints.maxWidth > 1000 ? 0.76 : constraints.maxWidth > 920 ? 0.7 : constraints.maxWidth > 860 ? 0.64 : constraints.maxWidth > 800 ? 0.53 : constraints.maxWidth > 750 ? 0.5 : constraints.maxWidth > 550 ?  0.6 : 1.08) : (constraints.maxWidth > 800 ? 0.85 :  0.85);
 
               return GridView.builder(
                 shrinkWrap: true,

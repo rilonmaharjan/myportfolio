@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:portfolio/views/about_section.dart';
 import 'package:portfolio/views/contact_section.dart';
@@ -8,9 +9,9 @@ import 'package:portfolio/views/footer.dart';
 import 'package:portfolio/views/header.dart';
 import 'package:portfolio/views/project_section.dart';
 import 'package:portfolio/views/skill_section.dart';
-import 'package:portfolio/widget/animated_bubble_bg.dart';
 import 'package:portfolio/widget/gradient_bg.dart';
 import 'package:portfolio/widget/science_bg.dart';
+// import 'package:portfolio/widget/animated_bubble_bg.dart';
 // import 'package:portfolio/widget/liquid_wave_bg.dart';
 // import 'package:portfolio/widget/floating_buble_bg.dart';
 // import 'package:portfolio/widget/particle_animated_bg.dart';
@@ -42,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isMobile = MediaQuery.of(context).size.width < 600;
+    final isMobile = MediaQuery.of(context).size.width < (kIsWeb ? 600 : 850);
 
     return Theme(
       data: _isDarkMode ? ThemeData.dark() : ThemeData.light(),
@@ -56,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
             // WaveBackground(),
             // ParticleBackground(),
             // FloatingBubblesBackground(),
-            AnimatedBackground(bubbleCount: isMobile ? 4 : 7,),
+            // AnimatedBackground(bubbleCount: isMobile ? 4 : 7,),
             Stack(
               children: [
                 SingleChildScrollView(
