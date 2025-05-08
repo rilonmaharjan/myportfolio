@@ -132,7 +132,7 @@ class _BackgroundPainter extends CustomPainter {
  
         if (distance < 0.25) {
           final alpha = (1 - distance / 0.25) * 200;
-          linePaint.color = colorScheme.primary.withValues(alpha: alpha / 255);
+          linePaint.color = colorScheme.primary.withValues(alpha: alpha / 450);
          
           canvas.drawLine(
             Offset(p1.x * size.width, p1.y * size.height),
@@ -150,7 +150,7 @@ class _BackgroundPainter extends CustomPainter {
      
       // Glow effect
       final glowPaint = Paint()
-        ..color = colorScheme.primary.withValues(alpha: particle.opacity * 0.1)
+        ..color = colorScheme.primary.withValues(alpha: particle.opacity * 0.2)
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 10);
      
       canvas.drawCircle(
@@ -160,7 +160,7 @@ class _BackgroundPainter extends CustomPainter {
       );
  
       // Main particle
-      particlePaint.color = colorScheme.primary.withValues(alpha: particle.opacity);
+      particlePaint.color = colorScheme.primary.withValues(alpha: particle.opacity * 0.7);
       canvas.drawCircle(
         Offset(posX, posY),
         particle.size,
@@ -170,7 +170,7 @@ class _BackgroundPainter extends CustomPainter {
  
     // Draw subtle grid pattern
     final gridPaint = Paint()
-      ..color = colorScheme.onSurface.withValues(alpha: 0.08)
+      ..color = colorScheme.onSurface.withValues(alpha: 0.07)
       ..strokeWidth = 0.5;
    
     const gridSize = 40;
