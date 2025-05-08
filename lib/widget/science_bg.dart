@@ -113,8 +113,8 @@ class _BackgroundPainter extends CustomPainter {
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
       colors: [
-        colorScheme.surface.withValues(alpha: 0.2),
-        colorScheme.surface.withValues(alpha: 0.2),
+        colorScheme.surface.withValues(alpha: 0.1),
+        colorScheme.surface.withValues(alpha: 0.1),
       ],
     );
     final rect = Rect.fromLTWH(0, 0, size.width, size.height);

@@ -32,17 +32,17 @@ class _AnimatedGradientBackgroundState extends State<AnimatedGradientBackground>
   void initState() {
     super.initState();
     colorList = [
-        Colors.blue.withValues(alpha: widget.isDarkMode ? 0.15 : 0.5),
+        Colors.indigo.withValues(alpha: widget.isDarkMode ? 0.2 : 0.5),
         Colors.purple.withValues(alpha: widget.isDarkMode ? 0.2 : 0.35),
         Colors.deepPurple.withValues(alpha: widget.isDarkMode ? 0.15 : 0.35),
-        Colors.indigo.withValues(alpha: widget.isDarkMode ? 0.2 : 0.5),
+        Colors.blue.withValues(alpha: widget.isDarkMode ? 0.15 : 0.5),
       ];
       bottomColor = Colors.blue.withValues(alpha: widget.isDarkMode ? 0.2 : 0.5);
       topColor = Colors.indigo.withValues(alpha: widget.isDarkMode ? 0.2 : 0.5);
 
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: Duration(seconds: 1),
     )..repeat();
     
     _animation = Tween<double>(begin: 0, end: 1).animate(_controller)
