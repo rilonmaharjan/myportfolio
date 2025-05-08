@@ -261,7 +261,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                             width: double.infinity,
                             child: FilledButton(
                               onPressed: () {
-                                // Handle project view
+                                AppUtils().openLinkWithUrl(project['url']);
                               },
                               style: FilledButton.styleFrom(
                                 shape: RoundedRectangleBorder(
