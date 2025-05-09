@@ -15,14 +15,14 @@ class ProjectsSection extends StatefulWidget {
 class _ProjectsSectionState extends State<ProjectsSection> {
   final List<Map<String, dynamic>> projects = [
     {
-      'title': 'E-commerce App',
+      'title': 'Jutta Pasal (E-commerce App)',
       'description': 'A complete e-commerce solution with payment integration and product management.',
       'technologies': ['Flutter', 'Firebase'],
       'image': 'https://media.istockphoto.com/id/1418233376/vector/user-interface-design-for-business-dashboard-app.jpg?s=1024x1024&w=is&k=20&c=vI5mOPdIKdDuF3fozkNPoOxGymVJE03D3naRE-FIAfs=',
       "url" : "https://github.com/rilonmaharjan/Jutta_pasal",
     },
     {
-      'title': 'Free Movie App',
+      'title': 'Cuplex (Movie App)',
       'description': 'A movie app that provides information about movies and TV shows.',
       'technologies': ['Flutter', 'Getx', 'Movie API'],
       'image': 'https://media.istockphoto.com/id/1211397971/vector/modern-infographic-vector-elements-for-business-brochures-use-in-website-corporate-brochure.jpg?s=1024x1024&w=is&k=20&c=n96F8jCXv0Ow_7vyIpdoYBvY7QVUFDwFgFMEkVKt-Jw=',
@@ -43,7 +43,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
       "url" : "https://github.com/rilonmaharjan/FPL",
     },
     {
-      'title': 'Chat Bot App',
+      'title': 'Char App with AI',
       'description': 'A movie app that provides information about movies and TV shows.',
       'technologies': ['Flutter', 'Firebase', 'Google API'],
       'image': 'https://media.istockphoto.com/id/1211397971/vector/modern-infographic-vector-elements-for-business-brochures-use-in-website-corporate-brochure.jpg?s=1024x1024&w=is&k=20&c=n96F8jCXv0Ow_7vyIpdoYBvY7QVUFDwFgFMEkVKt-Jw=',

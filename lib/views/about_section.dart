@@ -42,8 +42,8 @@ class _AboutSectionState extends State<AboutSection> {
                     padding: const EdgeInsets.only(right: 40),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      child: Image.network(
-                        'https://media.istockphoto.com/id/1316604492/photo/profile-portrait-of-middle-aged-man-over-grey-background.jpg?s=612x612&w=0&k=20&c=m_9Xg7mIqE8E4Zx2bVd_n1DMu2b2OvD97GhNQsJmQeE=',
+                      child: Image.asset(
+                        'assets/images/pp.jpg',
                         width: 300,
                         height: 300,
                         fit: BoxFit.cover,
@@ -65,8 +65,8 @@ class _AboutSectionState extends State<AboutSection> {
                     if(isMobile)
                       ClipRRect(
                         borderRadius: BorderRadius.circular(10),
-                        child: Image.network(
-                          'https://media.istockphoto.com/id/1316604492/photo/profile-portrait-of-middle-aged-man-over-grey-background.jpg?s=612x612&w=0&k=20&c=m_9Xg7mIqE8E4Zx2bVd_n1DMu2b2OvD97GhNQsJmQeE=',
+                        child: Image.asset(
+                          'assets/images/pp.jpg',
                           width: 150,
                           height: 150,
                           fit: BoxFit.cover,
