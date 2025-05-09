@@ -166,13 +166,12 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                               ),
                             );
                           },
-                          errorBuilder: (context, error, stackTrace) {
-                            return Container(
-                              height: 220,
-                              color: Colors.grey.withValues(alpha:0.1),
-                              child: const Icon(Icons.broken_image),
-                            );
-                          },
+                          errorBuilder: (_, __, ___) => Container(
+                            height: 220,
+                            width: double.infinity,
+                            color: Colors.grey.withValues(alpha: 0.2),
+                            child: Icon(Icons.error, size: 50, color: Colors.red.withValues(alpha: 0.5)),
+                          ),
                         ),
                       ),
                       Positioned.fill(
