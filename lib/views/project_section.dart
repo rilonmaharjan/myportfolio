@@ -148,7 +148,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                             top: Radius.circular(12)),
                         child: Image.network(
                           project['image'],
-                          height: 220,
+                          height: 200,
                           width: double.infinity,
                           fit: BoxFit.cover,
                           loadingBuilder: (context, child, loadingProgress) {
