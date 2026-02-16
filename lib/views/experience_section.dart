@@ -14,7 +14,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
     {
       'title': 'Flutter Developer',
       'company': 'Miracle Interface',
-      'period': '2022 - 2025',
+      'period': '2022 - 2026',
       'description':
           'Developed and maintained cross-platform mobile applications using Flutter framework.',
     },

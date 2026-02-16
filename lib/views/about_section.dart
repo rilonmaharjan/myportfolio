@@ -106,26 +106,6 @@ class _AboutSectionState extends State<AboutSection> {
                         _buildInfoItem('Freelance:', 'Available'),
                       ],
                     ),
-                    const SizedBox(height: 30),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 30,
-                          vertical: 15,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                          side: BorderSide(
-                            color: Theme.of(context).textTheme.labelLarge!.color!.withValues(alpha: 0.3),
-                          ),
-                        ),
-                      ),
-                      child: const Text(
-                        'Download CV',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    )
                   ],
                 ),
               ),
