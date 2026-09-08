@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:portfolio/constant/constant.dart';
 import 'package:portfolio/constant/utils.dart';
@@ -11,15 +8,15 @@ class Footer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isMobile = MediaQuery.of(context).size.width < 400;
+    final isMobile = MediaQuery.of(context).size.width < 500;
     final isTablet = MediaQuery.of(context).size.width < 800;
 
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: isMobile ? 20 : isTablet ? 40 : 100,
-        vertical: isMobile ? 40 : 60,
+        vertical: isMobile ? 30 : 50,
       ),
-      color: Colors.grey.withValues(alpha:0.0),
+      color: Colors.grey.withValues(alpha: isDarkMode ? 0.05 : 0.1),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -39,15 +36,15 @@ class Footer extends StatelessWidget {
                 _buildSocialIconsRow(center: true),
               ],
             ),
-          const SizedBox(height: 30),
+          const SizedBox(height: 25),
           const Divider(color: Colors.grey),
-          const SizedBox(height: 20),
+          const SizedBox(height: 15),
           Text(
-            '© ${DateTime.now().year} My Portfolio. All rights reserved.',
+            '© ${DateTime.now().year} $name. Built with Flutter & Dart.',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: isDarkMode ? Colors.grey[400] : Colors.grey[700],
-              fontSize: 12,
+              fontSize: 12.5,
             ),
           ),
         ],
@@ -61,15 +58,15 @@ class Footer extends StatelessWidget {
           isMobile || isTablet ? CrossAxisAlignment.center : CrossAxisAlignment.start,
       children: [
         Text(
-          'My Portfolio',
-          style: TextStyle(
+          name,
+          style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 6),
         Text(
-          'A showcase of my work and skills as a Flutter developer.',
+          'Senior Flutter Developer — Engineering high quality mobile apps.',
           textAlign: isMobile || isTablet ? TextAlign.center : TextAlign.start,
           style: TextStyle(
             color: isDarkMode ? Colors.grey[400] : Colors.grey[700],
@@ -85,27 +82,46 @@ class Footer extends StatelessWidget {
       mainAxisAlignment:
           center ? MainAxisAlignment.center : MainAxisAlignment.start,
       children: [
-        _buildSocialIcon(Icons.facebook, () => AppUtils().openLinkWithUrl(kIsWeb ? "https://www.facebook.com/rilonmhrzn" : Platform.isIOS ? "fb://profile/101948562518590" : "fb://page/101948562518590")),
-        const SizedBox(width: 15),
-        _buildSocialIcon(Icons.email, () { if(!kIsWeb) {AppUtils().openLinkWithUrl('mailto:$email');}}),
+        _buildSocialIcon(
+          Icons.code,
+          'GitHub',
+          () => AppUtils().openLinkWithUrl('https://github.com/rilonmaharjan'),
+        ),
+        const SizedBox(width: 12),
+        _buildSocialIcon(
+          Icons.email,
+          'Email',
+          () => AppUtils().openLinkWithUrl('mailto:$email'),
+        ),
+        const SizedBox(width: 12),
+        _buildSocialIcon(
+          Icons.facebook,
+          'Facebook',
+          () => AppUtils().openLinkWithUrl('https://www.facebook.com/rilonmhrzn'),
+        ),
       ],
     );
   }
 
-  Widget _buildSocialIcon(IconData icon, VoidCallback onTap) {    
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          color: Colors.grey[800],
-          shape: BoxShape.circle,
-        ),
-        child: Icon(
-          icon,
-          color: Colors.white,
-          size: 20,
+  Widget _buildSocialIcon(IconData icon, String tooltip, VoidCallback onTap) {
+    return Tooltip(
+      message: tooltip,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(20),
+        child: Container(
+          width: 42,
+          height: 42,
+          decoration: BoxDecoration(
+            color: Colors.grey.withValues(alpha: isDarkMode ? 0.25 : 0.2),
+            shape: BoxShape.circle,
+            border: Border.all(color: Colors.purpleAccent.withValues(alpha: 0.3)),
+          ),
+          child: Icon(
+            icon,
+            color: isDarkMode ? Colors.white : Colors.black87,
+            size: 20,
+          ),
         ),
       ),
     );

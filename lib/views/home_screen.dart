@@ -127,9 +127,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   Text(
-                    'My Portfolio',
+                    'Rilon Maharjan',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).textTheme.titleLarge?.color,
                     ),
@@ -160,12 +160,26 @@ class _HomeScreenState extends State<HomeScreen> {
             decoration: BoxDecoration(
               color: Colors.deepPurple.withValues(alpha: isMobile ? 0.2 : 0.3)
             ),
-            child: Text(
-              'My Portfolio',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+            child: const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Rilon Maharjan',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  'Senior Flutter Developer',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: Colors.purpleAccent,
+                  ),
+                ),
+              ],
             ),
           ),
           ListTile(

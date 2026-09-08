@@ -120,14 +120,28 @@ class _HeaderState extends State<Header> with SingleTickerProviderStateMixin {
     Flexible(
       child: FadeTransition(
         opacity: _animation,
-        child: Text(
-          'My Portfolio',
-          style: TextStyle(
-            fontSize: isMobile ? 20 : 24,
-            fontWeight: FontWeight.bold,
-            color: theme.textTheme.titleLarge?.color,
-          ),
-          overflow: TextOverflow.ellipsis,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Rilon Maharjan',
+              style: TextStyle(
+                fontSize: isMobile ? 18 : 22,
+                fontWeight: FontWeight.bold,
+                color: theme.textTheme.titleLarge?.color,
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+            const SizedBox(width: 4),
+            Container(
+              width: 6,
+              height: 6,
+              decoration: const BoxDecoration(
+                color: Colors.purpleAccent,
+                shape: BoxShape.circle,
+              ),
+            ),
+          ],
         ),
       ),
     ),
