@@ -97,7 +97,7 @@ class _AboutSectionState extends State<AboutSection> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(16),
           child: Image.asset(
-            'assets/images/pp.jpg',
+            'assets/images/ppp.jpg',
             width: isMobile ? 180 : 320,
             height: isMobile ? 180 : 360,
             fit: BoxFit.cover,
@@ -200,10 +200,10 @@ class _AboutSectionState extends State<AboutSection> {
             ),
             OutlinedButton.icon(
               onPressed: () {
-                AppUtils().openLinkWithUrl('mailto:$email?subject=Request%20Resume');
+                AppUtils().openLinkWithUrl(cvUrl);
               },
               icon: const Icon(Icons.description_outlined, size: 18),
-              label: const Text('Contact Details'),
+              label: const Text('Check CV'),
               style: OutlinedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
                 shape: RoundedRectangleBorder(
