@@ -47,7 +47,7 @@ class _SkillsSectionState extends State<SkillsSection> {
 
     // State & Architecture
     {
-      'name': 'Clean Architecture & MVVM',
+      'name': 'Clean Architecture & MVC',
       'category': 'State & Architecture',
       'level': 0.88,
       'levelLabel': 'Advanced',
@@ -57,14 +57,14 @@ class _SkillsSectionState extends State<SkillsSection> {
       'tags': ['SOLID', 'Dependency Injection', 'Repository Pattern', 'GetIt'],
     },
     {
-      'name': 'GetX / Provider',
+      'name': 'GetX',
       'category': 'State & Architecture',
       'level': 0.85,
       'levelLabel': 'Advanced',
       'icon': Icons.alt_route,
       'color': Colors.indigoAccent,
       'description': 'Lightweight state management, route management, and dependency injection.',
-      'tags': ['GetX', 'Provider', 'Dependency Injection'],
+      'tags': ['GetX', 'Dependency Injection'],
     },
 
     // Backend & APIs
@@ -79,14 +79,14 @@ class _SkillsSectionState extends State<SkillsSection> {
       'tags': ['FCM', 'Firestore', 'Auth', 'Analytics'],
     },
     {
-      'name': 'REST APIs & Networking',
+      'name': 'REST APIs',
       'category': 'Backend & APIs',
       'level': 0.90,
       'levelLabel': 'Expert',
       'icon': Icons.api_rounded,
       'color': Colors.teal,
       'description': 'HTTP / Dio client, JSON serialization, Interceptors, error handling.',
-      'tags': ['Dio', 'JSON Parsing', 'JWT Auth', 'WebSockets'],
+      'tags': ['Dio', 'JSON Parsing', 'WebSockets'],
     },
     {
       'name': 'Local Storage & Databases',
@@ -96,7 +96,7 @@ class _SkillsSectionState extends State<SkillsSection> {
       'icon': Icons.storage_rounded,
       'color': Colors.cyan,
       'description': 'Offline-first data caching with Hive, Shared Preferences, and SQLite.',
-      'tags': ['Hive', 'SharedPreferences', 'SQLite', 'Offline First'],
+      'tags': ['SharedPreferences', 'SQLite', 'Get Storage'],
     },
 
     // Native & Integrations
@@ -108,7 +108,7 @@ class _SkillsSectionState extends State<SkillsSection> {
       'icon': Icons.payments_rounded,
       'color': Colors.green,
       'description': 'App Store & Play Store subscription engines, gifting systems, and receipt validation.',
-      'tags': ['In-App Purchase', 'Subscriptions', 'Gifting Engine'],
+      'tags': ['In-App Purchase', 'Subscriptions'],
     },
     {
       'name': 'QR Scanning & Loyalty Rewards',
@@ -118,7 +118,7 @@ class _SkillsSectionState extends State<SkillsSection> {
       'icon': Icons.qr_code_scanner_rounded,
       'color': Colors.deepOrange,
       'description': 'Bulk product scanning, warranty verification, and loyalty point calculators.',
-      'tags': ['QR Code', 'Camera Engine', 'Loyalty Rewards'],
+      'tags': ['QR Code', 'Camera Engine',],
     },
     {
       'name': 'Maps & Geo-Data Services',

@@ -259,6 +259,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
               final totalSpacing = spacing * (crossAxisCount - 1);
               final cardWidth =
                   (constraints.maxWidth - totalSpacing) / crossAxisCount;
+              final cardHeight = 380.0;
 
               return Wrap(
                 spacing: spacing,
@@ -266,7 +267,14 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                 children: projects.asMap().entries.map((entry) {
                   return SizedBox(
                     width: cardWidth,
-                    child: _buildProjectCard(entry.value, entry.key, context),
+                    height: cardHeight,
+                    child: _ProjectCardItem(
+                      project: entry.value,
+                      isDarkMode: widget.isDarkMode,
+                      onTap: () => _showProjectDetailsDialog(context, entry.value),
+                      buildAppIconWidget: _buildAppIconWidget,
+                      buildStoreButtons: _buildStoreButtons,
+                    ),
                   );
                 }).toList(),
               );
@@ -277,75 +285,560 @@ class _ProjectsSectionState extends State<ProjectsSection> {
     );
   }
 
-  Widget _buildProjectCard(
-    Map<String, dynamic> project,
-    int index,
-    BuildContext context,
-  ) {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final primaryUrl = _getPrimaryUrl(project);
+  void _showProjectDetailsDialog(BuildContext context, Map<String, dynamic> project) {
+    final isDarkMode = widget.isDarkMode;
+    final String title = project['title'] ?? 'Project Details';
+    final String category = project['category'] ?? '';
+    final String status = project['status'] ?? 'STORE RELEASE';
+    final String? iconPath = project['appIcon'];
+    final String description =
+        project['longDesc'] ?? project['shortDesc'] ?? project['description'] ?? '';
+    final List<dynamic> stack = project['stack'] ?? project['technologies'] ?? [];
+    final List<dynamic> metrics = project['metrics'] ?? [];
 
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: ClipRRect(
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-          child: InkWell(
-            onTap: () {
-              if (primaryUrl != null) {
-                AppUtils().openLinkWithUrl(primaryUrl);
-              }
-            },
-            borderRadius: BorderRadius.circular(12),
-            child: Card(
-              color: Colors.grey.withValues(alpha: 0.2),
-              shadowColor: Colors.transparent,
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Card Header Banner
-                  _buildCardHeader(project, context),
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          backgroundColor: isDarkMode ? const Color(0xFF1E1E2E) : Colors.white,
+          surfaceTintColor: Colors.transparent,
+          clipBehavior: Clip.antiAlias,
+          child: Container(
+            constraints: BoxConstraints(
+              maxWidth: 650,
+              maxHeight: MediaQuery.of(context).size.height * 0.85,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Header Banner
+                _buildDialogHeader(context, title, category, status, iconPath, isDarkMode),
 
-                  // Project details - Dynamic natural height container
-                  Padding(
-                    padding: const EdgeInsets.all(16),
+                // Content Body
+                Flexible(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(24),
                     child: Column(
-                      mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        // Overview
+                        _buildSectionHeader(context, 'Overview', Icons.description_outlined),
+                        const SizedBox(height: 8),
                         Text(
-                          project['shortDesc'] ?? project['description'] ?? '',
+                          description,
                           style: TextStyle(
-                            fontSize: 13,
-                            height: 1.4,
+                            fontSize: 14,
+                            height: 1.6,
                             color: Theme.of(context)
                                 .colorScheme
                                 .onSurface
-                                .withValues(alpha: 0.85),
+                                .withValues(alpha: 0.9),
                           ),
                         ),
-                        const SizedBox(height: 12),
-                        // Tech Stack Chips
-                        _buildStackChips(
-                          project['stack'] ?? project['technologies'] ?? [],
-                          isDarkMode,
-                        ),
-                        const SizedBox(height: 12),
-                        // Metrics Highlights
-                        if (project['metrics'] != null)
-                          _buildMetricsList(project['metrics'] as List<dynamic>),
-                        const SizedBox(height: 16),
-                        // Store Buttons
-                        _buildStoreButtons(project),
+                        const SizedBox(height: 24),
+
+                        // Tech Stack
+                        if (stack.isNotEmpty) ...[
+                          _buildSectionHeader(context, 'Technologies & Architecture', Icons.code_rounded),
+                          const SizedBox(height: 10),
+                          Wrap(
+                            spacing: 8,
+                            runSpacing: 8,
+                            children: stack.map((tech) {
+                              return Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.12),
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                    color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.25),
+                                  ),
+                                ),
+                                child: Text(
+                                  tech.toString(),
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    color: isDarkMode ? Colors.purpleAccent.shade100 : Colors.purple.shade700,
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                          const SizedBox(height: 24),
+                        ],
+
+                        // Key Features & Metrics
+                        if (metrics.isNotEmpty) ...[
+                          _buildSectionHeader(context, 'Key Features & Highlights', Icons.verified_outlined),
+                          const SizedBox(height: 12),
+                          ...metrics.map((metric) {
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    margin: const EdgeInsets.only(top: 2),
+                                    padding: const EdgeInsets.all(2),
+                                    decoration: BoxDecoration(
+                                      color: Colors.purple.withValues(alpha: 0.15),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Icon(
+                                      Icons.check_circle_rounded,
+                                      size: 15,
+                                      color: Colors.purpleAccent,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Expanded(
+                                    child: Text(
+                                      metric.toString(),
+                                      style: TextStyle(
+                                        fontSize: 13.5,
+                                        height: 1.4,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurface
+                                            .withValues(alpha: 0.85),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }),
+                        ],
                       ],
                     ),
                   ),
-                ],
+                ),
+
+                // Dialog Footer
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: isDarkMode
+                        ? Colors.black.withValues(alpha: 0.2)
+                        : Colors.grey.shade100,
+                    border: Border(
+                      top: BorderSide(
+                        color: Theme.of(context).dividerColor.withValues(alpha: 0.1),
+                      ),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(child: _buildStoreButtons(project)),
+                      const SizedBox(width: 12),
+                      TextButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        ),
+                        child: const Text('Close'),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildDialogHeader(
+    BuildContext context,
+    String title,
+    String category,
+    String status,
+    String? iconPath,
+    bool isDarkMode,
+  ) {
+    final List<Color> gradientColors = isDarkMode
+        ? [Colors.purple.shade900, Colors.indigo.shade900]
+        : [Colors.deepPurple.shade700, Colors.indigo.shade700];
+
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: gradientColors,
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 52,
+            height: 52,
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: _buildAppIconWidget(iconPath, title),
+            ),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Flexible(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.2),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          category,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: Colors.green.shade800.withValues(alpha: 0.6),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: Colors.greenAccent.shade200, width: 0.8),
+                      ),
+                      child: Text(
+                        status,
+                        style: const TextStyle(
+                          color: Colors.greenAccent,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  title,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          IconButton(
+            onPressed: () => Navigator.of(context).pop(),
+            icon: const Icon(Icons.close, color: Colors.white),
+            tooltip: 'Close',
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSectionHeader(BuildContext context, String title, IconData icon) {
+    return Row(
+      children: [
+        Icon(
+          icon,
+          size: 18,
+          color: Theme.of(context).colorScheme.primary,
+        ),
+        const SizedBox(width: 8),
+        Text(
+          title,
+          style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+                letterSpacing: 0.5,
+              ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAppIconWidget(String? iconPath, String title) {
+    if (iconPath != null && iconPath.isNotEmpty) {
+      if (iconPath.startsWith('http://') || iconPath.startsWith('https://')) {
+        return Image.network(
+          iconPath,
+          fit: BoxFit.cover,
+          errorBuilder: (_, __, ___) => _buildFallbackIcon(title),
+        );
+      } else {
+        final cleanPath = iconPath.startsWith('/') ? iconPath.substring(1) : iconPath;
+        return Image.asset(
+          cleanPath,
+          fit: BoxFit.cover,
+          errorBuilder: (_, __, ___) => _buildFallbackIcon(title),
+        );
+      }
+    }
+    return _buildFallbackIcon(title);
+  }
+
+  Widget _buildFallbackIcon(String title) {
+    return Center(
+      child: Text(
+        title.isNotEmpty ? title[0].toUpperCase() : 'A',
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontSize: 18,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildStoreButtons(Map<String, dynamic> project) {
+    final playstore = project['playstore'];
+    final appstore = project['appstore'];
+    final github = project['github'];
+
+    List<Widget> buttons = [];
+
+    if (playstore != null) {
+      buttons.add(
+        Expanded(
+          child: OutlinedButton.icon(
+            onPressed: () => AppUtils().openLinkWithUrl(playstore),
+            icon: const Icon(Icons.android, size: 14),
+            label: const Text(
+              'Play Store',
+              style: TextStyle(fontSize: 11),
+              overflow: TextOverflow.ellipsis,
+            ),
+            style: OutlinedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+              minimumSize: const Size(0, 36),
+            ),
+          ),
+        ),
+      );
+    }
+
+    if (appstore != null) {
+      if (buttons.isNotEmpty) buttons.add(const SizedBox(width: 6));
+      buttons.add(
+        Expanded(
+          child: OutlinedButton.icon(
+            onPressed: () => AppUtils().openLinkWithUrl(appstore),
+            icon: const Icon(Icons.apple, size: 14),
+            label: const Text(
+              'App Store',
+              style: TextStyle(fontSize: 11),
+              overflow: TextOverflow.ellipsis,
+            ),
+            style: OutlinedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+              minimumSize: const Size(0, 36),
+            ),
+          ),
+        ),
+      );
+    }
+
+    if (github != null) {
+      if (buttons.isNotEmpty) buttons.add(const SizedBox(width: 6));
+      buttons.add(
+        Expanded(
+          child: OutlinedButton.icon(
+            onPressed: () => AppUtils().openLinkWithUrl(github),
+            icon: const Icon(Icons.code, size: 14),
+            label: const Text(
+              'GitHub',
+              style: TextStyle(fontSize: 11),
+              overflow: TextOverflow.ellipsis,
+            ),
+            style: OutlinedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+              minimumSize: const Size(0, 36),
+            ),
+          ),
+        ),
+      );
+    }
+
+    if (buttons.isEmpty) {
+      final primaryUrl = _getPrimaryUrl(project);
+      if (primaryUrl != null) {
+        buttons.add(
+          Expanded(
+            child: FilledButton(
+              onPressed: () => AppUtils().openLinkWithUrl(primaryUrl),
+              child: const Text('View App', style: TextStyle(fontSize: 12)),
+            ),
+          ),
+        );
+      }
+    }
+
+    return Row(children: buttons);
+  }
+}
+
+class _ProjectCardItem extends StatefulWidget {
+  final Map<String, dynamic> project;
+  final bool isDarkMode;
+  final VoidCallback onTap;
+  final Widget Function(String?, String) buildAppIconWidget;
+  final Widget Function(Map<String, dynamic>) buildStoreButtons;
+
+  const _ProjectCardItem({
+    required this.project,
+    required this.isDarkMode,
+    required this.onTap,
+    required this.buildAppIconWidget,
+    required this.buildStoreButtons,
+  });
+
+  @override
+  State<_ProjectCardItem> createState() => _ProjectCardItemState();
+}
+
+class _ProjectCardItemState extends State<_ProjectCardItem> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final project = widget.project;
+    final isDarkMode = widget.isDarkMode;
+
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeOutCubic,
+        transform: Matrix4.translationValues(0, _isHovered ? -5 : 0, 0),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: _isHovered
+                      ? Colors.purpleAccent.withValues(alpha: 0.5)
+                      : Colors.grey.withValues(alpha: 0.2),
+                  width: _isHovered ? 1.5 : 1.0,
+                ),
+              ),
+              child: Card(
+                margin: EdgeInsets.zero,
+                color: Colors.grey.withValues(alpha: _isHovered ? 0.25 : 0.15),
+                shadowColor: _isHovered
+                    ? Colors.purple.withValues(alpha: 0.3)
+                    : Colors.transparent,
+                elevation: _isHovered ? 12 : 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: InkWell(
+                  onTap: widget.onTap,
+                  borderRadius: BorderRadius.circular(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Header Banner
+                      _buildHeaderBanner(project, context),
+
+                      // Card Body
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Short Description
+                              Text(
+                                project['shortDesc'] ?? project['description'] ?? '',
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  height: 1.4,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurface
+                                      .withValues(alpha: 0.85),
+                                ),
+                              ),
+                              const SizedBox(height: 12),
+
+                              // Tech Stack Chips preview (max 4)
+                              _buildStackChips(
+                                project['stack'] ?? project['technologies'] ?? [],
+                                isDarkMode,
+                                context,
+                                maxCount: 4,
+                              ),
+                              const SizedBox(height: 12),
+
+                              // Metrics Highlights preview (max 2)
+                              if (project['metrics'] != null)
+                                _buildMetricsListPreview(
+                                  project['metrics'] as List<dynamic>,
+                                  context,
+                                ),
+
+                              const Spacer(),
+
+                              // Interactive indicator
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Click card to view details',
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w500,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary
+                                          .withValues(alpha: 0.85),
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_forward_ios_rounded,
+                                    size: 11,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .primary
+                                        .withValues(alpha: 0.85),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+
+                              // Store Buttons
+                              widget.buildStoreButtons(project),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
@@ -354,7 +847,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
     );
   }
 
-  Widget _buildCardHeader(Map<String, dynamic> project, BuildContext context) {
+  Widget _buildHeaderBanner(Map<String, dynamic> project, BuildContext context) {
     final String? iconPath = project['appIcon'];
     final String title = project['title'] ?? 'Project';
     final String category = project['category'] ?? '';
@@ -374,7 +867,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
       padding: const EdgeInsets.all(14),
       width: double.infinity,
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
         gradient: LinearGradient(
           colors: gradientColors,
           begin: Alignment.topLeft,
@@ -389,21 +882,26 @@ class _ProjectsSectionState extends State<ProjectsSection> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // Category tag
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text(
-                  category,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w600,
+              Flexible(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    category,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
+              const SizedBox(width: 8),
               // Status Badge
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
@@ -444,7 +942,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: _buildAppIconWidget(iconPath, title),
+                  child: widget.buildAppIconWidget(iconPath, title),
                 ),
               ),
               const SizedBox(width: 12),
@@ -467,169 +965,108 @@ class _ProjectsSectionState extends State<ProjectsSection> {
     );
   }
 
-  Widget _buildAppIconWidget(String? iconPath, String title) {
-    if (iconPath != null && iconPath.isNotEmpty) {
-      if (iconPath.startsWith('http://') || iconPath.startsWith('https://')) {
-        return Image.network(
-          iconPath,
-          fit: BoxFit.cover,
-          errorBuilder: (_, __, ___) => _buildFallbackIcon(title),
-        );
-      } else {
-        final cleanPath = iconPath.startsWith('/') ? iconPath.substring(1) : iconPath;
-        return Image.asset(
-          cleanPath,
-          fit: BoxFit.cover,
-          errorBuilder: (_, __, ___) => _buildFallbackIcon(title),
-        );
-      }
-    }
-    return _buildFallbackIcon(title);
-  }
+  Widget _buildStackChips(
+    List<dynamic> stack,
+    bool isDarkMode,
+    BuildContext context, {
+    int? maxCount,
+  }) {
+    final displayStack = maxCount != null ? stack.take(maxCount).toList() : stack;
+    final remaining =
+        maxCount != null && stack.length > maxCount ? stack.length - maxCount : 0;
 
-  Widget _buildFallbackIcon(String title) {
-    return Center(
-      child: Text(
-        title.isNotEmpty ? title[0].toUpperCase() : 'A',
-        style: const TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-          fontSize: 18,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildStackChips(List<dynamic> stack, bool isDarkMode) {
     return Wrap(
       spacing: 6,
       runSpacing: 6,
-      children: stack.map<Widget>((tech) {
-        return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.12),
-            borderRadius: BorderRadius.circular(6),
-          ),
-          child: Text(
-            tech.toString(),
-            style: TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.w500,
-              color: isDarkMode ? Colors.purpleAccent.shade100 : Colors.purple.shade700,
+      children: [
+        ...displayStack.map<Widget>((tech) {
+          return Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(6),
+            ),
+            child: Text(
+              tech.toString(),
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w500,
+                color: isDarkMode ? Colors.purpleAccent.shade100 : Colors.purple.shade700,
+              ),
+            ),
+          );
+        }),
+        if (remaining > 0)
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.18),
+              borderRadius: BorderRadius.circular(6),
+            ),
+            child: Text(
+              '+$remaining',
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.bold,
+                color: isDarkMode ? Colors.purpleAccent.shade100 : Colors.purple.shade700,
+              ),
             ),
           ),
-        );
-      }).toList(),
+      ],
     );
   }
 
-  Widget _buildMetricsList(List<dynamic> metrics) {
+  Widget _buildMetricsListPreview(List<dynamic> metrics, BuildContext context) {
+    final displayMetrics = metrics.take(2).toList();
+    final remainingCount = metrics.length - displayMetrics.length;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: metrics.map<Widget>((metric) {
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 4),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Icon(
-                Icons.check_circle_outline,
-                size: 13,
-                color: Colors.purpleAccent,
-              ),
-              const SizedBox(width: 6),
-              Expanded(
-                child: Text(
-                  metric.toString(),
-                  style: TextStyle(
-                    fontSize: 11.5,
-                    height: 1.3,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withValues(alpha: 0.75),
+      children: [
+        ...displayMetrics.map<Widget>((metric) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 4),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Icon(
+                  Icons.check_circle_outline,
+                  size: 13,
+                  color: Colors.purpleAccent,
+                ),
+                const SizedBox(width: 6),
+                Expanded(
+                  child: Text(
+                    metric.toString(),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 11.5,
+                      height: 1.3,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withValues(alpha: 0.75),
+                    ),
                   ),
                 ),
+              ],
+            ),
+          );
+        }),
+        if (remainingCount > 0)
+          Padding(
+            padding: const EdgeInsets.only(top: 2),
+            child: Text(
+              '+ $remainingCount more key features...',
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
+                color: Colors.purpleAccent.shade200,
               ),
-            ],
+            ),
           ),
-        );
-      }).toList(),
+      ],
     );
-  }
-
-  Widget _buildStoreButtons(Map<String, dynamic> project) {
-    final playstore = project['playstore'];
-    final appstore = project['appstore'];
-    final github = project['github'];
-
-    List<Widget> buttons = [];
-
-    if (playstore != null) {
-      buttons.add(
-        Expanded(
-          child: OutlinedButton.icon(
-            onPressed: () => AppUtils().openLinkWithUrl(playstore),
-            icon: const Icon(Icons.android, size: 14),
-            label: const Text('Play Store', style: TextStyle(fontSize: 11)),
-            style: OutlinedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
-              minimumSize: const Size(0, 34),
-            ),
-          ),
-        ),
-      );
-    }
-
-    if (appstore != null) {
-      if (buttons.isNotEmpty) buttons.add(const SizedBox(width: 6));
-      buttons.add(
-        Expanded(
-          child: OutlinedButton.icon(
-            onPressed: () => AppUtils().openLinkWithUrl(appstore),
-            icon: const Icon(Icons.apple, size: 14),
-            label: const Text('App Store', style: TextStyle(fontSize: 11)),
-            style: OutlinedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
-              minimumSize: const Size(0, 34),
-            ),
-          ),
-        ),
-      );
-    }
-
-    if (github != null) {
-      if (buttons.isNotEmpty) buttons.add(const SizedBox(width: 6));
-      buttons.add(
-        Expanded(
-          child: OutlinedButton.icon(
-            onPressed: () => AppUtils().openLinkWithUrl(github),
-            icon: const Icon(Icons.code, size: 14),
-            label: const Text('GitHub', style: TextStyle(fontSize: 11)),
-            style: OutlinedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
-              minimumSize: const Size(0, 34),
-            ),
-          ),
-        ),
-      );
-    }
-
-    if (buttons.isEmpty) {
-      final primaryUrl = _getPrimaryUrl(project);
-      if (primaryUrl != null) {
-        buttons.add(
-          Expanded(
-            child: FilledButton(
-              onPressed: () => AppUtils().openLinkWithUrl(primaryUrl),
-              child: const Text('View App', style: TextStyle(fontSize: 12)),
-            ),
-          ),
-        );
-      }
-    }
-
-    return Row(children: buttons);
   }
 }
