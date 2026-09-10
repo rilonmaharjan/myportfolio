@@ -192,6 +192,7 @@ class _SkillsSectionState extends State<SkillsSection> {
         horizontal: isMobile ? 20 : isTablet ? 40 : 100,
         vertical: isMobile ? 40 : 60,
       ),
+      width : double.infinity,
       color: Colors.grey.withValues(alpha: widget.isDarkMode ? 0.1 : 0.15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
