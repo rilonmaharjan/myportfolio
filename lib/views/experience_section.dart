@@ -1,4 +1,5 @@
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 class ExperienceSection extends StatefulWidget {
@@ -56,7 +57,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
       'description':
           'Gained hands-on commercial experience in cross-platform mobile development and Dart fundamental patterns.',
       'achievements': [
-        'Assisted senior developers in UI bug fixes and feature development.',
+        'Assisted developers in UI bug fixes and feature development.',
         'Mastered Flutter layouts, REST API consumption, and Git version control.',
       ],
       'technologies': ['Flutter', 'Dart', 'REST API', 'Git'],

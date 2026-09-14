@@ -66,7 +66,7 @@ class Footer extends StatelessWidget {
         ),
         const SizedBox(height: 6),
         Text(
-          'Senior Flutter Developer — Engineering high quality mobile apps.',
+          'Flutter Developer — Engineering high quality mobile apps.',
           textAlign: isMobile || isTablet ? TextAlign.center : TextAlign.start,
           style: TextStyle(
             color: isDarkMode ? Colors.grey[400] : Colors.grey[700],

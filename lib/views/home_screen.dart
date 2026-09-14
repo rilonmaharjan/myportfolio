@@ -173,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'Senior Flutter Developer',
+                  'Flutter Developer',
                   style: TextStyle(
                     fontSize: 13,
                     color: Colors.purpleAccent,
