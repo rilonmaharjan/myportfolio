@@ -10,7 +10,6 @@ import 'package:portfolio/views/header.dart';
 import 'package:portfolio/views/project_section.dart';
 import 'package:portfolio/views/skill_section.dart';
 import 'package:portfolio/widget/gradient_bg.dart';
-import 'package:portfolio/widget/science_bg.dart';
 // import 'package:portfolio/widget/animated_bubble_bg.dart';
 // import 'package:portfolio/widget/liquid_wave_bg.dart';
 // import 'package:portfolio/widget/floating_buble_bg.dart';
@@ -52,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
         body: Stack(
           children: [
             AnimatedGradientBackground(isDarkMode: _isDarkMode,),
-            ScienceAnimation(),
+            // ScienceAnimation(),
             // LiquidWaveBackground(),
             // WaveBackground(),
             // ParticleBackground(),
