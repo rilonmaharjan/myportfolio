@@ -85820,7 +85820,7 @@ return A.bx(o,A.cr(A.b([q,B.cd,A.aR("Passionate about crafting scalable, high-pe
 LS(a){var s=null,r=A.bo(16),q=A.b([new A.d7(0,B.c0,B.as.aA(0.25),B.Oh,20)],t.sq),p=A.bo(16),o=a?180:320,n=a?180:360
 return A.jU(A.bx(s,A.i9(p,A.awA("assets/images/ppp.jpg",new A.afj(a),B.jd,n,o)),B.m,s,s,new A.bl(s,s,s,r,q,s,B.D),s,s,s,s,s,s,s),s,s)},
 LJ(a,b,c){var s,r,q,p,o,n=this,m=null,l=c?B.z:B.M,k=A.bv(m,m,m,m,m,m,m,m,m,m,m,c?24:32,m,m,B.V,m,m,!0,m,m,m,m,m,m,m,m)
-k=A.aR("Hello! I'm Rilon Maharjan",m,m,m,k,c?B.bV:B.aE,m)
+k=A.aR("Hello I'm Rilon Maharjan",m,m,m,k,c?B.bV:B.aE,m)
 s=A.bv(m,m,B.as,m,m,m,m,m,m,m,m,c?16:18,m,m,B.cu,m,m,!0,m,m,m,m,m,m,m,m)
 s=A.aR("Flutter Developer",m,m,m,s,c?B.bV:B.aE,m)
 r=c?14.5:16
