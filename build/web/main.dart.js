@@ -85816,7 +85816,7 @@ else s=l?40:100
 r=m?40:60
 q=A.aR("About Me",o,o,o,A.bv(o,o,o,o,o,o,o,o,o,o,o,m?28:36,o,o,B.V,o,o,!0,o,o,o,o,o,o,o,o),o,o)
 p=A.K(a).ok.w
-return A.bx(o,A.cr(A.b([q,B.cd,A.aR("Passionate about crafting scalable, high-performance mobile solutions",o,o,o,p==null?o:p.bZ(A.K(a).ax.k3.aA(0.65)),o,o),B.zO,A.a4i(new A.afk(this,m,k)),B.e3,this.a3Z(m,l,k)],t.p),B.M,B.u),B.m,o,o,o,o,o,o,new A.a8(n,100,s,r),o,o,o)},
+return A.bx(o,A.cr(A.b([q,B.cd,A.aR("Passionate about crafting scalable, high-performance mobile applications",o,o,o,p==null?o:p.bZ(A.K(a).ax.k3.aA(0.65)),o,o),B.zO,A.a4i(new A.afk(this,m,k)),B.e3,this.a3Z(m,l,k)],t.p),B.M,B.u),B.m,o,o,o,o,o,o,new A.a8(n,100,s,r),o,o,o)},
 LS(a){var s=null,r=A.bo(16),q=A.b([new A.d7(0,B.c0,B.as.aA(0.25),B.Oh,20)],t.sq),p=A.bo(16),o=a?180:320,n=a?180:360
 return A.jU(A.bx(s,A.i9(p,A.awA("assets/images/ppp.jpg",new A.afj(a),B.jd,n,o)),B.m,s,s,new A.bl(s,s,s,r,q,s,B.D),s,s,s,s,s,s,s),s,s)},
 LJ(a,b,c){var s,r,q,p,o,n=this,m=null,l=c?B.z:B.M,k=A.bv(m,m,m,m,m,m,m,m,m,m,m,c?24:32,m,m,B.V,m,m,!0,m,m,m,m,m,m,m,m)
