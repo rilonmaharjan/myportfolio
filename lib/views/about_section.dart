@@ -35,7 +35,7 @@ class _AboutSectionState extends State<AboutSection> {
           ),
           const SizedBox(height: 8),
           Text(
-            'Passionate about crafting scalable, high-performance mobile applications',
+            'Passionate about crafting scalable, high-performance mobile solutions',
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   color: Theme.of(context)
                       .colorScheme
